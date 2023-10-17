@@ -33,20 +33,32 @@ public:
     vec input = {2, 3, 4, 5, 6, 7};
 
     /**
+     * @brief N used for testing
+     *
+     */
+    int n = 7;
+
+    /**
+     * @brief Second N used for testing
+     *
+     */
+    int secondN = 4;
+
+    /**
      * @brief first object
      *
      */
-    Hermite test = Hermite(7, input);
+    Hermite test = Hermite(n, input);
     /**
      * @brief second object (supposed to be the same as the first one)
      *
      */
-    Hermite test2 = Hermite(7, 2, 7, 6);
+    Hermite test2 = Hermite(n, 2, 7, 6);
     /**
      * @brief third object with different value than the others
      *
      */
-    Hermite testWithRealHermite = Hermite(4, {1, 2, 3, 4, 5});
+    Hermite testWithRealHermite = Hermite(secondN, {1, 2, 3, 4, 5});
 
     /**
      * @test this function tests the constructor
@@ -113,8 +125,11 @@ public:
         TS_TRACE("Testing with Z = {1,2,3,4,5}");
         mat hermiteMatrix =
         {
-            {1, 2, 2, -4, -20},    {1, 4, 14, 40, 76},     {1, 6, 34, 180, 876},
-            {1, 8, 62, 464, 3340}, {1, 10, 98, 940, 8812},
+            {1, 2, 2, -4, -20},
+            {1, 4, 14, 40, 76},
+            {1, 6, 34, 180, 876},
+            {1, 8, 62, 464, 3340},
+            {1, 10, 98, 940, 8812},
         };
 
         mat hermiteFetch = testWithRealHermite.getPolynomeMat();

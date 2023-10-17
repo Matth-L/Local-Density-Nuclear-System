@@ -49,16 +49,13 @@ public:
         int hbar = rand() % 100;
         int omega = rand() % 100;
 
-        TS_TRACE("hbar = " + std::to_string(hbar));
-        TS_TRACE("omega = " + std::to_string(omega));
-
         for (int i = 0; i < 25; i++)
         {
             Schrodinger x = Schrodinger();
             TS_ASSERT(x.energyLevels(hbar, omega, i) == hbar * omega * (i + 0.5));
         }
 
-        TS_TRACE("Test hbar = random, omega = random is DONE");
+        TS_TRACE("Test hbar , omega is DONE");
         TS_TRACE("Test is DONE");
     }
 
@@ -77,11 +74,12 @@ public:
 
         // testing for n=1 , interval = [-1, 1], nodes = 3
         TS_TRACE("Starting n=1 , interval = [-1, 1], nodes = 3 test");
+        int n = 1;
 
         vec test = {-0.591, 0};
         Schrodinger x = Schrodinger();
         Solutions sol = Solutions();
-        mat psi = sol.solutions(1, -1, 1, 3);
+        mat psi = sol.solutions(n, -1, 1, 3);
         mat snd = x.secondDerivative(psi);
 
         // testing with approximation for all the nodes
@@ -106,10 +104,11 @@ public:
 
         // testing for n=2 , interval = [-1, 1], nodes = 3
         TS_TRACE("Starting n=2 , interval = [-1, 1], nodes = 3 test");
+        n = 2;
 
         vec test2 = {-0.591, 0, 1.7064};
 
-        snd = x.secondDerivative(sol.solutions(2, -1, 1, 3));
+        snd = x.secondDerivative(sol.solutions(n, -1, 1, 3));
 
         for (int i = 0; i < snd.n_rows - 1; i++)
         {

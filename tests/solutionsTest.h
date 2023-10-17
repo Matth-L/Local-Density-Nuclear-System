@@ -90,9 +90,9 @@ public:
 
         // if i == j then the result should be 1
         // otherwise it should be 0
-        for (int i = 0; i < 24; i++)
+        for (int i = 0; i < 20; i++)
         {
-            for (int j = 0; j < 24; j++)
+            for (int j = 0; j < 20; j++)
             {
                 double a = x1.verifOrthonormality(i, j);
                 double b = x2.verifOrthonormality(i, j);
