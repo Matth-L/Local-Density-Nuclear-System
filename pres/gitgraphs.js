@@ -74,7 +74,7 @@ cfg = configLarge;
 cfg.elementId = 'gitExample1';
 var g = new GitGraph(cfg);
 var main = g.branch("main");
-main.commit("Hey");
+main.commit("Calcul de la solution");
 g.tag("v0.2.0");
 var m = g.branch("matthias");
 var r = g.branch("romeo");
