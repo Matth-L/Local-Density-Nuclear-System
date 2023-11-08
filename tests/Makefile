@@ -1,14 +1,15 @@
 CC = g++ -std=c++11
 CXX = cxxtestgen --error-printer
 HEADERSDIR = ../code/headers/
-OBJDIR = obj/
-BINDIR = bin/
-HEADERS = $(HEADERSDIR)hermite.h $(HEADERSDIR)solutions.h $(HEADERSDIR)schrodinger.h
+OBJDIR = ../code/obj/
+BINDIR = ../bin/
+HEADERS = $(HEADERSDIR)poly.h 
 SRCDIR = ../code/src/
-HEADERSTEST = hermiteTest.h solutionsTest.h schrodingerTest.h
+HEADERSTEST = mandatoryUnitTest.h
+
 # le fichier intermédiaire généré par cxxtestgen
 CXXTEST = test.cpp 
-OBJS= $(OBJDIR)hermite.o $(OBJDIR)solutions.o $(OBJDIR)schrodinger.o
+OBJS= $(OBJDIR)poly.o 
 OBJSTEST= $(OBJDIR)test.o 
 TARGET = $(BINDIR)test 
 
@@ -25,6 +26,7 @@ $(CXXTEST): $(HEADERSTEST)
 
 #création du .o pour les cpp générés par cxxtestgen
 $(OBJDIR)%.o: %.cpp
+	pwd 
 	$(CC) -c $< -o $@ -I $(HEADERSDIR)
 
 
