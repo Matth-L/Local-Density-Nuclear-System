@@ -7,7 +7,7 @@
 #include <stdexcept>
 using namespace arma;
 
-/*/**
+/**
  * @brief get the matrix of the hermite's polynome
  *
  * @return arma::mat
@@ -24,17 +24,24 @@ vec Poly::hermite(int n)
 
 /**
  * @brief compute the value of the hermite's polynome
+ *
+ * [
+ * [ z0 z1 z2 z3 ]
+ * [ z0 z1 z2 z3 ]
+ * [ z0 z1 z2 z3 ]
+ * ]
+ * n = 0 is a col of 1 ...
  */
 void Poly::calcHermite(int n, vec z)
 {
-  // TODO .col au lieu d'insert_cols
   vec twoZ = 2 * z;
-  for (unsigned int i = 0; i <= n; i++)
+  // TODO .col au lieu d'insert_cols
+  for (int i = 0; i <= n; i++)
   {
     if (i == 0)
     {
       // n=0 => H0 = 1
-      polynomeMat.insert_cols(i, ones(size(z)));
+      polynomeMat.insert_cols(i, ones(z.n_elem));
     }
     else if (i == 1)
     {
@@ -45,33 +52,55 @@ void Poly::calcHermite(int n, vec z)
     {
       // n => Hn = 2zHn-1 - 2(n-1)Hn-2
       polynomeMat.insert_cols(i, twoZ % polynomeMat.col(i - 1) -
-                              2 * (i - 1) * polynomeMat.col(i - 2));
-    }
-  }
-}
-
-void Poly::calcLaguerre(int mInput, int nInput, vec z)
-{
-
-  for (uint m = 0; m < mInput; m++)
-  {
-    for (uint n = 0; n < nInput; n++)
-    {
-      if (n == 0)
-      {
-        // 1 => (m,0)
-        ones();
-      }
-      else if (n == 1)
-      {
-        // 1 + m - z => (m,1)
-        polynomeLaguerre[m, 1]
-      }
+                                     2 * (i - 1) * polynomeMat.col(i - 2));
     }
   }
 }
 
 vec Poly::laguerre(int m, int n)
 {
-  return 0;
+  return polynomeLaguerre.slice(m).col(n);
 };
+
+void Poly::calcLaguerre(int mInput, int nInput, vec z)
+{
+
+  /*
+       [
+
+        m = 0
+        [
+          [1, ....]
+          [1, ....]
+          [1, ....]
+          [1, ....]
+        ]
+
+       ]
+  */
+
+  // cube of dim : row = size of z  , col = n , depth = m
+
+  polynomeLaguerre = cube(z.n_elem, nInput, mInput);
+
+  for (int m = 0; m < mInput; m++)
+  {
+    for (int n = 0; n < nInput; n++)
+    {
+      if (n == 0)
+      {
+        polynomeLaguerre.slice(m).col(n) = ones(z.n_elem);
+      }
+      else if (n == 1)
+      {
+        polynomeLaguerre.slice(m).col(n) = 1 + m - z;
+      }
+      else
+      {
+        vec a = polynomeLaguerre.slice(m).col(n - 1);
+        vec b = polynomeLaguerre.slice(m).col(n - 2);
+        polynomeLaguerre.slice(m).col(n) = ((2 + ((m - 1 - z) / n)) % a) - ((1 + ((m - 1) / n)) * b);
+      }
+    }
+  }
+}

@@ -7,8 +7,8 @@ BINDIR = ../bin/
 OBJDIR = obj/
 SRCDIR = src/
 HDIR = headers/
-HEADERS = $(HDIR)hermite.h $(HDIR)solutions.h $(HDIR)schrodinger.h
-OBJS = $(OBJDIR)hermite.o $(OBJDIR)solutions.o  $(OBJDIR)schrodinger.o $(OBJDIR)main.o
+HEADERS = $(HDIR)poly.h
+OBJS = $(OBJDIR)poly.o $(OBJDIR)main.o
 
 .Phony: clean all style 
 

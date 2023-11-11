@@ -17,7 +17,7 @@ using namespace arma;
  */
 float v(int i, int N, float Q)
 {
-    return (N + 2) * pow(Q, 2 / 3) + 0.5 - i * Q;
+  return (N + 2) * pow(Q, 2 / 3) + 0.5 - i * Q;
 }
 /**
  * @brief Construct a new Basis:: Basis object
@@ -29,23 +29,23 @@ float v(int i, int N, float Q)
  */
 Basis::Basis(double brInput, double bzInput, uint NInput, float QInput)
 {
-    br = brInput;
-    bz = bzInput;
-    N = NInput;
-    Q = QInput;
+  br = brInput;
+  bz = bzInput;
+  N = NInput;
+  Q = QInput;
 
-    int i = 0;
-    float res = v(i, N, Q);
-    while (res < 1)
-    {
-        i++;
-        res = v(i, N, Q);
-    }
-    mMax = i;
+  int i = 0;
+  float res = v(i, N, Q);
+  while (res < 1)
+  {
+    i++;
+    res = v(i, N, Q);
+  }
+  mMax = i;
 
-    arma::ivec nMax(mMax);
-    nMax.fill(0);
-    // TODO
+  arma::ivec nMax(mMax);
+  nMax.fill(0);
+  // TODO
 };
 
 /**
@@ -56,8 +56,8 @@ Basis::Basis(double brInput, double bzInput, uint NInput, float QInput)
  */
 float Basis::nMax(int m)
 {
-    // a faire dans le constructeur puis on recup via le vecteur
-    return 0.5 * (mMax - m - 1) + 1;
+  // a faire dans le constructeur puis on recup via le vecteur
+  return 0.5 * (mMax - m - 1) + 1;
 };
 
 /**
@@ -69,8 +69,8 @@ float Basis::nMax(int m)
  */
 float Basis::n_zMax(int m, int n)
 {
-    // a faire dans le constructeur puis on recup via la matrice
-    return v(m + 2 * n + 1, N, Q);
+  // a faire dans le constructeur puis on recup via la matrice
+  return v(m + 2 * n + 1, N, Q);
 };
 
 /**
@@ -80,8 +80,8 @@ float Basis::n_zMax(int m, int n)
  */
 arma::vec Basis::rPart(arma::vec, int, int)
 {
-    // TODO
-    return 0;
+  // TODO
+  return 0;
 };
 
 /**
@@ -91,8 +91,8 @@ arma::vec Basis::rPart(arma::vec, int, int)
  */
 arma::vec Basis::zPart(arma::vec, int)
 {
-    // TODO
-    return 0;
+  // TODO
+  return 0;
 };
 
 /**
@@ -102,6 +102,6 @@ arma::vec Basis::zPart(arma::vec, int)
  */
 arma::mat Basis::basisFunc(int, int, int, arma::vec, arma::vec)
 {
-    // TODO
-    return 0;
+  // TODO
+  return 0;
 };
