@@ -65,20 +65,6 @@ public:
   Basis(double, double, uint, float);
 
   /**
-   * @brief gives the corresponding value to m
-   *
-   * @return float n
-   */
-  float nMax(int);
-
-  /**
-   * @brief gives the corresponding value to m and n
-   *
-   * @return float n_z
-   */
-  float n_zMax(int, int);
-
-  /**
    * @brief compute the rPart of the basis function
    *
    * @return arma::vec

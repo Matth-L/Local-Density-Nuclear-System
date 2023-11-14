@@ -7,8 +7,8 @@ BINDIR = ../bin/
 OBJDIR = obj/
 SRCDIR = src/
 HDIR = headers/
-HEADERS = $(HDIR)poly.h
-OBJS = $(OBJDIR)poly.o $(OBJDIR)main.o
+HEADERS = $(HDIR)poly.h $(HDIR)basis.h
+OBJS = $(OBJDIR)poly.o $(OBJDIR)basis.o $(OBJDIR)main.o
 
 .Phony: clean all style 
 

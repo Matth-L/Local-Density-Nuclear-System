@@ -43,34 +43,22 @@ Basis::Basis(double brInput, double bzInput, uint NInput, float QInput)
   }
   mMax = i;
 
-  arma::ivec nMax(mMax);
-  nMax.fill(0);
-  // TODO
-};
-
-/**
- * @brief
- *
- * @param m
- * @return float
- */
-float Basis::nMax(int m)
-{
-  // a faire dans le constructeur puis on recup via le vecteur
-  return 0.5 * (mMax - m - 1) + 1;
-};
-
-/**
- * @brief
- *
- * @param m
- * @param n
- * @return float
- */
-float Basis::n_zMax(int m, int n)
-{
-  // a faire dans le constructeur puis on recup via la matrice
-  return v(m + 2 * n + 1, N, Q);
+  nMax.zeros(mMax);
+  for (int i = 0; i<mMax;i++)
+  {
+    nMax[i] = 0.5 * (mMax - i - 1) + 1;
+  }
+  
+  n_zMax.zeros(mMax,nMax[0]);
+  for (int m = 0;m<mMax;m++)
+  {
+      for (int n = 0;n<nMax[m];n++)
+      {
+          int res = v(m+2*n+1,14,1.3);
+          if (res<0) continue;
+          n_zMax(m,n) = res;
+      }
+  }
 };
 
 /**
