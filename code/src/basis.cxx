@@ -15,9 +15,9 @@ using namespace arma;
  * @param i
  * @return float
  */
-float v(int i, int N, float Q)
+int v(int i, int N, float Q)
 {
-  return (N + 2) * pow(Q, 2 / 3) + 0.5 - i * Q;
+  return (N + 2) * pow(Q, 2.0 / 3) + 0.5 - i * Q;
 }
 /**
  * @brief Construct a new Basis:: Basis object
@@ -36,7 +36,7 @@ Basis::Basis(double brInput, double bzInput, uint NInput, float QInput)
 
   int i = 0;
   float res = v(i, N, Q);
-  while (res < 1)
+  while (res > 1)
   {
     i++;
     res = v(i, N, Q);
@@ -48,15 +48,14 @@ Basis::Basis(double brInput, double bzInput, uint NInput, float QInput)
   {
     nMax[i] = 0.5 * (mMax - i - 1) + 1;
   }
-  
-  n_zMax.zeros(mMax,nMax[0]);
+  n_zMax.zeros(mMax,max(nMax));
   for (int m = 0;m<mMax;m++)
   {
       for (int n = 0;n<nMax[m];n++)
       {
-          int res = v(m+2*n+1,14,1.3);
-          if (res<0) continue;
-          n_zMax(m,n) = res;
+          int result = v(m+2*n+1,14,1.3);
+          if (result<0) continue;
+          n_zMax(m,n) = result;
       }
   }
 };
