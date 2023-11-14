@@ -66,10 +66,17 @@ Basis::Basis(double brInput, double bzInput, uint NInput, float QInput)
  *
  * @return arma::vec
  */
-arma::vec Basis::rPart(arma::vec, int, int)
+vec Basis::rPart(vec r, int m, int n)
 {
-  // TODO
-  return 0;
+  int am = abs(m);
+  double c = (1 / (br * sqrt(M_PI))) * sqrt(tgamma(n + 1) / tgamma(n + am + 1));
+  vec r2 = pow(r,2);
+  double val = -1/(2 * br * br);
+
+  Poly poly;
+  poly.calcLaguerre(am + 1, n + 1, r2 * (1/(br * br)));
+
+  return c * exp(r2 * val) % pow(r * (1/br), am) % poly.laguerre(am,n);
 };
 
 /**
@@ -80,7 +87,7 @@ arma::vec Basis::rPart(arma::vec, int, int)
 vec Basis::zPart(vec z, int nz)
 {
   Poly poly;
-  poly.calcHermite(nz + 1,z);
+  poly.calcHermite(nz + 1,z*(1/bz));
 
   double c = 1/(sqrt(bz) * sqrt(pow(2,nz) * sqrt(M_PI) * tgamma(nz + 1)));
   double val = -1/(2 * bz * bz);
@@ -94,7 +101,7 @@ vec Basis::zPart(vec z, int nz)
  *
  * @return arma::mat
  */
-arma::mat Basis::basisFunc(int, int, int, arma::vec, arma::vec)
+mat Basis::basisFunc(int, int, int, vec, vec)
 {
   // TODO
   return 0;
