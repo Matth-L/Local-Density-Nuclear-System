@@ -6,6 +6,7 @@
  */
 
 #include "../headers/basis.h"
+#include "../headers/poly.h"
 #include <cmath>
 using namespace arma;
 
@@ -76,10 +77,16 @@ arma::vec Basis::rPart(arma::vec, int, int)
  *
  * @return arma::vec
  */
-arma::vec Basis::zPart(arma::vec, int)
+vec Basis::zPart(vec z, int nz)
 {
-  // TODO
-  return 0;
+  Poly poly;
+  poly.calcHermite(nz + 1,z);
+
+  double c = 1/(sqrt(bz) * sqrt(pow(2,nz) * sqrt(M_PI) * tgamma(nz + 1)));
+  double val = -1/(2 * bz * bz);
+  vec z2 = pow(z,2);
+
+  return c * exp(z2 * val) % poly.hermite(nz);
 };
 
 /**

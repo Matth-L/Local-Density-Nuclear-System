@@ -16,5 +16,9 @@ int main()
   std::cout << "mMax:" << basis.mMax << std::endl; 
   std::cout << "nMax:" << basis.nMax << std::endl;
   std::cout << "n_zMax:" << basis.n_zMax << std::endl;  
+
+  arma::vec z = {-10.1, -8.4, -1.0, 0.0, 0.1, 4.3, 9.2, 13.7};
+  arma::vec res = basis.zPart(z, 0);
+  res.print();
   return 0;
 }
