@@ -102,8 +102,7 @@ vec Basis::zPart(vec z, int nz)
  *
  * @return arma::mat
  */
-mat Basis::basisFunc(int, int, int, vec, vec)
+mat Basis::basisFunc(int m, int n, int n_z, vec z, vec r)
 {
-  // TODO
-  return 0;
+  return zPart(z, n_z) % rPart(r, m, n);
 };

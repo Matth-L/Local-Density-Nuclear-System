@@ -7,27 +7,45 @@ using namespace arma;
 
 int main()
 {
-  Poly poly;
-  arma::vec z = {-10.1, -8.4, -1.0, 0.0, 0.1, 4.3, 9.2, 13.7};
-  poly.calcLaguerre(1, 1, z);
-  uint N = 14;
-  float Q = 1.3;
-  Basis basis(1.935801664793151, 2.829683956491218, N, Q);
-  std::cout << "br:" << basis.br << std::endl;
-  std::cout << "bz:" << basis.bz << std::endl;
-  std::cout << "N:" << basis.N << std::endl;
-  std::cout << "Q:" << basis.Q << std::endl;
-  std::cout << "mMax:" << basis.mMax << std::endl;
-  std::cout << "nMax:" << basis.nMax << std::endl;
-  std::cout << "n_zMax:" << basis.n_zMax << std::endl;
+  mat rho;
+  rho.load("rho.arma", arma_ascii);
+  Basis basis(1.935801664793151, 2.829683956491218, 14, 1.3);
 
-  cout << "zFunc" << endl;
-  arma::vec res = basis.zPart(z, 15);
-  res.print();
+  uint i = 0;
+  // for (int m = 0; m < basis.mMax; m++)
+  //   for (int n = 0; n < basis.nMax(m); n++)
+  //     for (int n_z = 0; n_z < basis.n_zMax(m, n); n_z++)
+  //     {
+  //       std::cout << "Basis vector " << i << ": m=" << m << " n=" << n << " n_z=" << n_z << std::endl;
+  //       i++;
+  //     }
+  mat result = zeros(64, 64); // number of points on r- and z- axes
+  vec zVals = linspace(-20, 20, 64);
+  vec rVals = linspace(-20, 20, 64);
+  for (int m = 0; m < basis.mMax; m++)
+  {
+    for (int n = 0; n < basis.nMax(m); n++)
+    {
+      for (int n_z = 0; n_z < basis.n_zMax(m, n); n_z++)
+      {
+        uint j = 0;
+        for (int mp = 0; mp < basis.mMax; mp++)
+        {
+          for (int np = 0; np < basis.nMax(mp); np++)
+          {
+            for (int n_zp = 0; n_zp < basis.n_zMax(mp, np); n_zp++)
+            {
+              arma::mat funcA = basis.basisFunc(m, n, n_z, zVals, rVals);
+              arma::mat funcB = basis.basisFunc(mp, np, n_zp, zVals, rVals);
+              result += funcA % funcB * rho(i, j);
+              j++; // mat += mat % mat * double
+            }
+          }
+        }
+        i++;
+      }
+    }
+  }
 
-  cout << "rFunc" << endl;
-  arma::vec r = {3.1, 2.3, 1.0, 0.0, 0.1, 4.3, 9.2, 13.7};
-  arma::vec res2 = basis.rPart(r, 8, 2);
-  res2.print();
-  return 0;
+  result.print();
 }
