@@ -52,7 +52,7 @@ void Poly::calcHermite(int n, vec z)
     {
       // n => Hn = 2zHn-1 - 2(n-1)Hn-2
       polynomeMat.insert_cols(i, twoZ % polynomeMat.col(i - 1) -
-                                     2 * (i - 1) * polynomeMat.col(i - 2));
+                              2 * (i - 1) * polynomeMat.col(i - 2));
     }
   }
 }
@@ -67,7 +67,6 @@ void Poly::calcLaguerre(int mInput, int nInput, vec z)
 
   /*
        [
-
         m = 0
         [
           [1, ....]
@@ -75,7 +74,6 @@ void Poly::calcLaguerre(int mInput, int nInput, vec z)
           [1, ....]
           [1, ....]
         ]
-
        ]
   */
 
@@ -83,24 +81,18 @@ void Poly::calcLaguerre(int mInput, int nInput, vec z)
 
   polynomeLaguerre = cube(z.n_elem, nInput, mInput);
 
+  cout << size(polynomeLaguerre) << endl;
   for (int m = 0; m < mInput; m++)
   {
-    for (int n = 0; n < nInput; n++)
+    polynomeLaguerre.slice(m).col(0) = ones(z.n_elem);
+    polynomeLaguerre.slice(m).col(1) = 1 + m - z;
+    for (int n = 2; n < nInput; n++)
     {
-      if (n == 0)
-      {
-        polynomeLaguerre.slice(m).col(n) = ones(z.n_elem);
-      }
-      else if (n == 1)
-      {
-        polynomeLaguerre.slice(m).col(n) = 1 + m - z;
-      }
-      else
-      {
-        vec a = polynomeLaguerre.slice(m).col(n - 1);
-        vec b = polynomeLaguerre.slice(m).col(n - 2);
-        polynomeLaguerre.slice(m).col(n) = ((2 + ((m - 1 - z) / n)) % a) - ((1 + ((m - 1) / n)) * b);
-      }
+      vec a = polynomeLaguerre.slice(m).col(n - 1);
+      vec b = polynomeLaguerre.slice(m).col(n - 2);
+      // séparer en ce qui dépend de z et ce qui ne dépend pas
+      polynomeLaguerre.slice(m).col(n) =
+        (2.0 + (m - 1.0 - z) / n) % a - (1.0 + (m - 1.0) / n) * b;
     }
   }
 }

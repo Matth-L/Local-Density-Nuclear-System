@@ -3,13 +3,13 @@ CXX = cxxtestgen --error-printer
 HEADERSDIR = ../code/headers/
 OBJDIR = ../code/obj/
 BINDIR = ../bin/
-HEADERS = $(HEADERSDIR)poly.h 
+HEADERS = $(HEADERSDIR)poly.h $(HEADERSDIR)basis.h
 SRCDIR = ../code/src/
 HEADERSTEST = mandatoryUnitTest.h
 
 # le fichier intermédiaire généré par cxxtestgen
 CXXTEST = test.cpp 
-OBJS= $(OBJDIR)poly.o 
+OBJS= $(OBJDIR)poly.o $(OBJDIR)basis.o
 OBJSTEST= $(OBJDIR)test.o 
 TARGET = $(BINDIR)test 
 
@@ -26,7 +26,6 @@ $(CXXTEST): $(HEADERSTEST)
 
 #création du .o pour les cpp générés par cxxtestgen
 $(OBJDIR)%.o: %.cpp
-	pwd 
 	$(CC) -c $< -o $@ -I $(HEADERSDIR)
 
 
