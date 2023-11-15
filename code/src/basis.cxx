@@ -55,7 +55,8 @@ Basis::Basis(double brInput, double bzInput, uint NInput, float QInput)
     for (int n = 0; n < nMax[m]; n++)
     {
       int result = v(m + 2 * n + 1, 14, 1.3);
-      if (result < 0) continue;
+      if (result < 0)
+        continue;
       n_zMax(m, n) = result;
     }
   }
@@ -87,7 +88,7 @@ vec Basis::rPart(vec r, int m, int n)
 vec Basis::zPart(vec z, int nz)
 {
   Poly poly;
-  poly.calcHermite(nz + 1, z * (1 / bz));
+  poly.calcHermite(nz + 1, z / bz);
 
   double c = 1 / (sqrt(bz) * sqrt(pow(2, nz) * sqrt(M_PI) * tgamma(nz + 1)));
   double val = -1 / (2 * bz * bz);

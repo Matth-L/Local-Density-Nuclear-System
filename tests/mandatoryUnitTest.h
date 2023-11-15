@@ -123,8 +123,9 @@ public:
                        3.63004153921473e-06,
                        3.87659726026123e-12
                       };
+    TS_TRACE("Delta1 Done");
     TS_ASSERT_DELTA(arma::norm(basis.rPart(r, 0, 0) - res00), 0.0, 1e-15);
-    TS_TRACE("Delta Done");
+    TS_TRACE("Delta1 Done");
     arma::vec res82 = {5.87858442372438e-02,
                        1.35240488413384e-02,
                        4.06810074575519e-05,
@@ -134,7 +135,10 @@ public:
                        5.20525909328609e-02,
                        1.44615166152252e-05
                       };
+
+    TS_TRACE("Delta2");
     TS_ASSERT_DELTA(arma::norm(basis.rPart(r, 8, 2) - res82), 0.0, 1e-15);
+    TS_TRACE("Delta2 Done");
 
     TS_TRACE("Test02 Done");
   }
@@ -143,6 +147,7 @@ public:
   void test03(void)
   {
     //     br = 1.935801664793151, bz = 2.829683956491218, N = 14, Q = 1.3
+    TS_TRACE("Test03");
     Basis basis(1.935801664793151, 2.829683956491218, 14, 1.3);
     arma::vec z = {-10.1, -8.4, -1.0, 0.0, 0.1, 4.3, 9.2, 13.7};
     arma::vec res00 = {7.64546544834383e-04,
@@ -154,7 +159,9 @@ public:
                        2.26186220733178e-03,
                        3.62929640195959e-06
                       };
+    TS_TRACE("Delta1");
     TS_ASSERT_DELTA(arma::norm(basis.zPart(z, 0) - res00), 0.0, 1e-15);
+    TS_TRACE("Delta1 Done");
     arma::vec res15 = {-9.48674551049192e-02,
                        -1.40338701953237e-03,
                        1.85620628040096e-01,
@@ -164,7 +171,10 @@ public:
                        2.15604096600475e-01,
                        2.44977220882127e-01
                       };
+    TS_TRACE("Delta2 ");
     TS_ASSERT_DELTA(arma::norm(basis.zPart(z, 15) - res15), 0.0, 1e-15);
+    TS_TRACE("Delta2 Done");
+    TS_TRACE("Test03 Done");
   }
 };
 

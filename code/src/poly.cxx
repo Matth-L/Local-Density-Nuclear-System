@@ -84,15 +84,25 @@ void Poly::calcLaguerre(int mInput, int nInput, vec z)
   cout << size(polynomeLaguerre) << endl;
   for (int m = 0; m < mInput; m++)
   {
-    polynomeLaguerre.slice(m).col(0) = ones(z.n_elem);
-    polynomeLaguerre.slice(m).col(1) = 1 + m - z;
-    for (int n = 2; n < nInput; n++)
+    for (int n = 0; n < nInput; n++)
     {
-      vec a = polynomeLaguerre.slice(m).col(n - 1);
-      vec b = polynomeLaguerre.slice(m).col(n - 2);
-      // séparer en ce qui dépend de z et ce qui ne dépend pas
-      polynomeLaguerre.slice(m).col(n) =
-        (2.0 + (m - 1.0 - z) / n) % a - (1.0 + (m - 1.0) / n) * b;
+      if (n == 0)
+      {
+        polynomeLaguerre.slice(m).col(0) = ones(z.n_elem);
+      }
+      else if (n == 1)
+      {
+        polynomeLaguerre.slice(m).col(1) = 1 + m - z;
+      }
+      else if (n > 1)
+      {
+
+        vec a = polynomeLaguerre.slice(m).col(n - 1);
+        vec b = polynomeLaguerre.slice(m).col(n - 2);
+        // séparer en ce qui dépend de z et ce qui ne dépend pas
+        polynomeLaguerre.slice(m).col(n) =
+          (2.0 + (m - 1.0 - z) / n) % a - (1.0 + (m - 1.0) / n) * b;
+      }
     }
   }
 }

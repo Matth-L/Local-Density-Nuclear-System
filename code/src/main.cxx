@@ -2,10 +2,14 @@
 #include <armadillo>
 #include <cmath>
 #include "../headers/basis.h"
+#include "../headers/poly.h"
 using namespace arma;
 
 int main()
 {
+  Poly poly;
+  arma::vec z = {-10.1, -8.4, -1.0, 0.0, 0.1, 4.3, 9.2, 13.7};
+  poly.calcLaguerre(1, 1, z);
   uint N = 14;
   float Q = 1.3;
   Basis basis(1.935801664793151, 2.829683956491218, N, Q);
@@ -18,7 +22,6 @@ int main()
   std::cout << "n_zMax:" << basis.n_zMax << std::endl;
 
   cout << "zFunc" << endl;
-  arma::vec z = {-10.1, -8.4, -1.0, 0.0, 0.1, 4.3, 9.2, 13.7};
   arma::vec res = basis.zPart(z, 15);
   res.print();
 
