@@ -104,5 +104,5 @@ vec Basis::zPart(vec z, int nz)
  */
 mat Basis::basisFunc(int m, int n, int n_z, vec z, vec r)
 {
-  return zPart(z, n_z) % rPart(r, m, n);
+  return zPart(z, n_z) * rPart(r, m, n).t();
 };

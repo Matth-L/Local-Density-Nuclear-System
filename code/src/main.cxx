@@ -5,11 +5,43 @@
 #include "../headers/poly.h"
 using namespace arma;
 
+std::string cubeToDf3(const arma::cube& m)
+{
+  std::stringstream ss(std::stringstream::out | std::stringstream::binary);
+  int nx = m.n_rows;
+  int ny = m.n_cols;
+  int nz = m.n_slices;
+  ss.put(nx >> 8);
+  ss.put(nx & 0xff);
+  ss.put(ny >> 8);
+  ss.put(ny & 0xff);
+  ss.put(nz >> 8);
+  ss.put(nz & 0xff);
+  double theMin = 0.0;
+  double theMax = m.max();
+  for (uint k = 0; k < m.n_slices; k++)
+  {
+    for (uint j = 0; j < m.n_cols; j++)
+    {
+      for (uint i = 0; i < m.n_rows; i++)
+      {
+        uint v = 255 * (fabs(m(i, j, k)) - theMin) / (theMax - theMin);
+        ss.put(v);
+      }
+    }
+  }
+  return ss.str();
+}
+
 int main()
 {
   mat rho;
-  rho.load("rho.arma", arma_ascii);
+
+  cout << rho.load("/home/matth-l/Documents/2A_ENSIIE_HPC/INPS/local-density-nuclear-system/code/src/rho.arma", arma_ascii) << endl;
+
   Basis basis(1.935801664793151, 2.829683956491218, 14, 1.3);
+
+  cout << rho << endl;
 
   uint i = 0;
   // for (int m = 0; m < basis.mMax; m++)
@@ -35,6 +67,7 @@ int main()
           {
             for (int n_zp = 0; n_zp < basis.n_zMax(mp, np); n_zp++)
             {
+              cout << "m = " << m << " n = " << n << " n_z = " << n_z << " mp = " << mp << " np = " << np << " n_zp = " << n_zp << endl;
               arma::mat funcA = basis.basisFunc(m, n, n_z, zVals, rVals);
               arma::mat funcB = basis.basisFunc(mp, np, n_zp, zVals, rVals);
               result += funcA % funcB * rho(i, j);
