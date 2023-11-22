@@ -81,7 +81,7 @@ void Poly::calcLaguerre(int mInput, int nInput, vec z)
 
   polynomeLaguerre = cube(z.n_elem, nInput, mInput);
 
-  cout << size(polynomeLaguerre) << endl;
+  // cout << size(polynomeLaguerre) << endl;
   for (int m = 0; m < mInput; m++)
   {
     for (int n = 0; n < nInput; n++)

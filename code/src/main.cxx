@@ -37,11 +37,9 @@ int main()
 {
   mat rho;
 
-  cout << rho.load("/home/matth-l/Documents/2A_ENSIIE_HPC/INPS/local-density-nuclear-system/code/src/rho.arma", arma_ascii) << endl;
+  rho.load("./code/src/rho.arma", arma_ascii);
 
   Basis basis(1.935801664793151, 2.829683956491218, 14, 1.3);
-
-  cout << rho << endl;
 
   uint i = 0;
   // for (int m = 0; m < basis.mMax; m++)
@@ -67,7 +65,7 @@ int main()
           {
             for (int n_zp = 0; n_zp < basis.n_zMax(mp, np); n_zp++)
             {
-              cout << "m = " << m << " n = " << n << " n_z = " << n_z << " mp = " << mp << " np = " << np << " n_zp = " << n_zp << endl;
+              //cout << "m = " << m << " n = " << n << " n_z = " << n_z << " mp = " << mp << " np = " << np << " n_zp = " << n_zp << endl;
               arma::mat funcA = basis.basisFunc(m, n, n_z, zVals, rVals);
               arma::mat funcB = basis.basisFunc(mp, np, n_zp, zVals, rVals);
               result += funcA % funcB * rho(i, j);
@@ -80,5 +78,6 @@ int main()
     }
   }
 
-  result.print();
+  result.save("./bin/test.csv", csv_ascii);
+  // result.print();
 }
