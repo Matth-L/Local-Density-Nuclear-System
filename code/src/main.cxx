@@ -44,10 +44,25 @@ int main()
 
   Basis basis(1.935801664793151, 2.829683956491218, 14, 1.3);
 
-  uint i = 0;
-  mat result = zeros(64, 64); // number of points on r- and z- axes
   vec zVals = linspace(-20, 20, 64);
   vec rVals = linspace(-20, 20, 64);
+
+  // car la fonction B est calculé pour chaque m, n et n_z, elle est donc calculé trop de fois
+  // on la précalcule donc dans un cube qui est un vecteur de matrices
+  std::vector<arma::mat> funcB;
+  for (int mp = 0; mp < basis.mMax; mp++)
+  {
+    for (int np = 0; np < basis.nMax(mp); np++)
+    {
+      for (int n_zp = 0; n_zp < basis.n_zMax(mp, np); n_zp++)
+      {
+        funcB.push_back(basis.basisFunc(mp, np, n_zp, zVals, rVals));
+      }
+    }
+  }
+
+  uint i = 0;
+  mat result = zeros(64, 64); // number of points on r- and z- axes
   for (int m = 0; m < basis.mMax; m++)
   {
     for (int n = 0; n < basis.nMax(m); n++)
@@ -56,18 +71,12 @@ int main()
       {
         uint j = 0;
         arma::mat funcA = basis.basisFunc(m, n, n_z, zVals, rVals);
-
-        for (int mp = 0; mp < basis.mMax; mp++)
+        // ducoup pour chaque fonction B, on calcule la fonction A et on la multiplie par la densité
+        // la fonction B est déja précalculé un for each suffit donc
+        for (auto& func : funcB)
         {
-          for (int np = 0; np < basis.nMax(mp); np++)
-          {
-            for (int n_zp = 0; n_zp < basis.n_zMax(mp, np); n_zp++)
-            {
-              arma::mat funcB = basis.basisFunc(mp, np, n_zp, zVals, rVals);
-              result += funcA % funcB * rho(i, j);
-              j++; // mat += mat % mat * double
-            }
-          }
+          result += funcA % func * rho(i, j);
+          j++;
         }
         i++;
       }
