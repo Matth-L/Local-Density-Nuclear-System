@@ -6,7 +6,7 @@
 #include "../headers/poly.h"
 using namespace arma;
 
-std::string cubeToDf3(const arma::cube &m)
+std::string cubeToDf3(const arma::cube& m)
 {
   std::stringstream ss(std::stringstream::out | std::stringstream::binary);
   int nx = m.n_rows;
@@ -55,14 +55,14 @@ int main()
       for (int n_z = 0; n_z < basis.n_zMax(m, n); n_z++)
       {
         uint j = 0;
+        arma::mat funcA = basis.basisFunc(m, n, n_z, zVals, rVals);
+
         for (int mp = 0; mp < basis.mMax; mp++)
         {
           for (int np = 0; np < basis.nMax(mp); np++)
           {
             for (int n_zp = 0; n_zp < basis.n_zMax(mp, np); n_zp++)
             {
-              // cout << "m = " << m << " n = " << n << " n_z = " << n_z << " mp = " << mp << " np = " << np << " n_zp = " << n_zp << endl;
-              arma::mat funcA = basis.basisFunc(m, n, n_z, zVals, rVals);
               arma::mat funcB = basis.basisFunc(mp, np, n_zp, zVals, rVals);
               result += funcA % funcB * rho(i, j);
               j++; // mat += mat % mat * double
