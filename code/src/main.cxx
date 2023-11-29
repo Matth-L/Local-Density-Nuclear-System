@@ -84,7 +84,7 @@ int main()
   }
 
   // temps en seconde
-  std::cout << "Temps d'exécution : " << std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - start).count() << "s" << std::endl;
+  std::cout << "Temps d'exécution : " << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - start).count() << "s" << std::endl;
 
   result.save("./bin/test.csv", csv_ascii);
   // result.print();
