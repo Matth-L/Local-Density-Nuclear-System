@@ -1,4 +1,6 @@
-Temps d'exec moyen : 9143 ms
+Temps d'exec moyen : 5811.8 ms
+10 fois
+A = B , donc on utilise uniquement A
 Avec aucun autre processus ouvert hormis gnome-terminal.
 
 Information lié à la machine (neofetch) :

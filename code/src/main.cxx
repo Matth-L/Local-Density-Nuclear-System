@@ -6,7 +6,7 @@
 #include "../headers/poly.h"
 using namespace arma;
 
-std::string cubeToDf3(const arma::cube &m)
+std::string cubeToDf3(const arma::cube& m)
 {
   std::stringstream ss(std::stringstream::out | std::stringstream::binary);
   int nx = m.n_rows;
@@ -75,7 +75,7 @@ int main()
   }
 
   // temps en seconde
-  std::cout << "Temps d'exécution : " << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - start).count() << "s" << std::endl;
+  std::cout << "Temps d'exécution : " << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - start).count() << "ms" << std::endl;
 
   result.save("./bin/test.csv", csv_ascii);
   // result.print();
