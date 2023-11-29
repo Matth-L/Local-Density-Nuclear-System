@@ -1,5 +1,4 @@
-Temps d'exec moyen : ???
-Test effectué 10 fois.
+Temps d'exec moyen : 9 , 9
 Avec aucun autre processus ouvert hormis gnome-terminal.
 
 Information lié à la machine (neofetch) :
