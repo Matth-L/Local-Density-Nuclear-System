@@ -33,12 +33,17 @@ std::string cubeToDf3(const arma::cube &m)
   }
   return ss.str();
 }
-
+bool isSymmetric(const arma::mat &matrix)
+{
+  return arma::approx_equal(matrix, matrix.t(), "absdiff", 0.0001);
+}
 int main()
 {
   mat rho;
 
   rho.load("./code/src/rho.arma", arma_ascii);
+
+  cout << "rho est symétrique : " << isSymmetric(rho) << endl;
 
   auto start = std::chrono::high_resolution_clock::now();
 
@@ -49,7 +54,8 @@ int main()
 
   // car la fonction B est calculé pour chaque m, n et n_z, elle est donc calculé trop de fois
   // on la précalcule donc dans un cube qui est un vecteur de matrices
-  std::vector<arma::mat> funcA(374);
+  std::vector<arma::mat> cubeA(374);
+  std::vector<arma::mat> cubeB(374);
   int k = 0;
   for (int mp = 0; mp < basis.mMax; mp++)
   {
@@ -57,23 +63,18 @@ int main()
     {
       for (int n_zp = 0; n_zp < basis.n_zMax(mp, np); n_zp++)
       {
-        funcA[k] = basis.basisFunc(mp, np, n_zp, zVals, rVals);
+        cubeA[k] = basis.basisFunc(mp, np, n_zp, zVals, rVals);
+        cubeB[k] = basis.basisFunc(mp, np, n_zp, zVals, rVals);
         k++;
       }
     }
   }
 
-  uint i = 0;
   mat result = zeros(64, 64); // number of points on r- and z- axes
   for (int i = 0; i < 374; i++)
   {
-
-    for (int j = 0; j < 374; j++)
-    {
-      result += funcA[i] % funcA[j] * rho(i, j);
-    }
+    result += cubeA[i] % cubeB[i] * rho(i, i);
   }
-
   // temps en seconde
   std::cout << "Temps d'exécution : " << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - start).count() << "s" << std::endl;
 
