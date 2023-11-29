@@ -1,6 +1,9 @@
-Temps d'exec moyen : 4090 ms
+Temps d'exec moyen : 4056.5ms
+10 fois
 Avec aucun autre processus ouvert hormis gnome-terminal.
-same value
+
+Utilisation du fait que rho est symétrique pour diminuer le nombre de calcul par 2
+
 
 Information lié à la machine (neofetch) :
 
