@@ -1,4 +1,4 @@
-Temps d'exec moyen : 5878ms ms
+Temps d'exec moyen : 4090 ms
 Avec aucun autre processus ouvert hormis gnome-terminal.
 same value
 

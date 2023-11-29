@@ -30,35 +30,22 @@ int main()
     }
   }
 
-  uint i = 0;
   mat result = zeros(64, 64);
+  size_t basisFuncsSize = basisFuncs.size();
 
-  for (int m = 0; m < basis.mMax; m++)
+  for (size_t i = 0; i < basisFuncsSize; i++)
   {
-    for (int n = 0; n < basis.nMax(m); n++)
+    for (size_t j = 0; j < i; j++)
     {
-      for (int n_z = 0; n_z < basis.n_zMax(m, n); n_z++)
-      {
-        uint j = 0;
-        for (int mp = 0; mp < basis.mMax; mp++)
-        {
-          for (int np = 0; np < basis.nMax(mp); np++)
-          {
-            for (int n_zp = 0; n_zp < basis.n_zMax(mp, np); n_zp++)
-            {
-              result += basisFuncs[i] % basisFuncs[j] * rho(i, j);
-              j++;
-            }
-          }
-        }
-        i++;
-      }
+      result += 2 * basisFuncs[i] % basisFuncs[j] * rho(i, j);
     }
+    result += basisFuncs[i] % basisFuncs[i] * rho(i, i);
   }
 
-  std::cout << "Temps d'exécution : " << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - start).count() << "ms" << std::endl;
+  std::cout << "Temps d'exécution : " << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - start).count() << "s" << std::endl;
 
   result.save("./bin/test.csv", csv_ascii);
+  // result.print();
 
   return 0;
 }
