@@ -1,6 +1,8 @@
-Temps d'exec moyen : ???
-Test effectué 10 fois.
+Temps d'exec moyen : 10942.125ms
+Test effectué 8 fois.
 Avec aucun autre processus ouvert hormis gnome-terminal.
+
+Modif : Matrice A déplacé juste après les 3 premieres for car celui-ci ne dépend que de m , n , n_z
 
 Information lié à la machine (neofetch) :
 
