@@ -1,6 +1,7 @@
-Temps d'exec moyen : 4090 ms
+Temps d'exec moyen : 3871 ms
 Avec aucun autre processus ouvert hormis gnome-terminal.
-same value
+
+utilisation de variable speed up le code ?? 
 
 Information lié à la machine (neofetch) :
 

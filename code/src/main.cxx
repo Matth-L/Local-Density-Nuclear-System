@@ -44,7 +44,7 @@ int main()
       result += basisProduct * rho(i, j);
     }
   }
-  std::cout << "Temps d'exécution : " << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - start).count() << "s" << std::endl;
+  std::cout << "Temps d'exécution : " << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - start).count() << "ms" << std::endl;
 
   result.save("./bin/test.csv", csv_ascii);
   // result.print();
