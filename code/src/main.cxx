@@ -35,13 +35,15 @@ int main()
 
   for (size_t i = 0; i < basisFuncsSize; i++)
   {
+    mat basisProduct = basisFuncs[i] % basisFuncs[i];
+    result += basisProduct * rho(i, i);
+
     for (size_t j = 0; j < i; j++)
     {
-      result += 2 * basisFuncs[i] % basisFuncs[j] * rho(i, j);
+      basisProduct = 2 * basisFuncs[i] % basisFuncs[j];
+      result += basisProduct * rho(i, j);
     }
-    result += basisFuncs[i] % basisFuncs[i] * rho(i, i);
   }
-
   std::cout << "Temps d'exécution : " << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - start).count() << "s" << std::endl;
 
   result.save("./bin/test.csv", csv_ascii);
