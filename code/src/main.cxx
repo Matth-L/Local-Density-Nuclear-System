@@ -1,11 +1,12 @@
 #include <iostream>
 #include <armadillo>
 #include <cmath>
+#include <fstream>
 #include "../headers/basis.h"
 #include "../headers/poly.h"
 using namespace arma;
 
-std::string cubeToDf3(const arma::cube& m)
+std::string cubeToDf3(const arma::cube &m)
 {
   std::stringstream ss(std::stringstream::out | std::stringstream::binary);
   int nx = m.n_rows;
@@ -49,9 +50,14 @@ int main()
   //       std::cout << "Basis vector " << i << ": m=" << m << " n=" << n << " n_z=" << n_z << std::endl;
   //       i++;
   //     }
-  mat result = zeros(64, 64); // number of points on r- and z- axes
+  mat result = zeros(64, 32); // number of points on r- and z- axes
   vec zVals = linspace(-20, 20, 64);
-  vec rVals = linspace(-20, 20, 64);
+  vec xVals = linspace(-10, 10, 32);
+  vec yVals = linspace(-10, 10, 32);
+
+  vec rVals = sqrt(xVals % xVals + yVals % yVals);
+  vec tVals = atan(yVals / xVals); // donne le meme résultat a revoir
+  std::cout << rVals << std::endl;
   for (int m = 0; m < basis.mMax; m++)
   {
     for (int n = 0; n < basis.nMax(m); n++)
@@ -65,7 +71,7 @@ int main()
           {
             for (int n_zp = 0; n_zp < basis.n_zMax(mp, np); n_zp++)
             {
-              //cout << "m = " << m << " n = " << n << " n_z = " << n_z << " mp = " << mp << " np = " << np << " n_zp = " << n_zp << endl;
+              // cout << "m = " << m << " n = " << n << " n_z = " << n_z << " mp = " << mp << " np = " << np << " n_zp = " << n_zp << endl;
               arma::mat funcA = basis.basisFunc(m, n, n_z, zVals, rVals);
               arma::mat funcB = basis.basisFunc(mp, np, n_zp, zVals, rVals);
               result += funcA % funcB * rho(i, j);
@@ -80,4 +86,30 @@ int main()
 
   result.save("./bin/test.csv", csv_ascii);
   // result.print();
+
+  // pas comme ça
+
+  // cube RZTresult = zeros(64, 64, 64);
+  // for (int mSum = 0; mSum < 2 * basis.mMax - 1; mSum++)
+  // {
+  //   for (int i = 0; i < RZTresult.n_slices; i++)
+  //   {
+  //     RZTresult.slice(i) = result * exp((i * mSum) * tVals);
+  //   }
+  // }
+  // cube &ref = RZTresult;
+  // std::ofstream outFile("serialized.txt");
+  // outFile << cubeToDf3(ref);
+
+  // cube XYZresult = zeros(64, 64, 64);
+  // for (int r = 0; r < RZTresult.n_rows; r++)
+  // {
+  //   for (int z = 0; z < RZTresult.n_cols; z++)
+  //   {
+  //     for (int t = 0; t < RZTresult.n_slices; t++)
+  //     {
+  //       // c'est nul
+  //     }
+  //   }
+  // }
 }
