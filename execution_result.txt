@@ -1,4 +1,5 @@
 Temps d'exec moyen : 3871 ms
+10 test
 Avec aucun autre processus ouvert hormis gnome-terminal.
 
 utilisation de variable speed up le code ?? 
