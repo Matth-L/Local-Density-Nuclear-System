@@ -18,29 +18,30 @@ int main()
   vec zVals = linspace(-20, 20, 64);
   vec rVals = linspace(-20, 20, 64);
 
-  std::vector<arma::mat> basisFuncs;
+  cube basisFuncs(64, 64, 374);
+  int k = 0;
   for (int m = 0; m < basis.mMax; m++)
   {
     for (int n = 0; n < basis.nMax(m); n++)
     {
       for (int n_z = 0; n_z < basis.n_zMax(m, n); n_z++)
       {
-        basisFuncs.push_back(basis.basisFunc(m, n, n_z, zVals, rVals));
+        basisFuncs.slice(k) = (basis.basisFunc(m, n, n_z, zVals, rVals));
+        k++;
       }
     }
   }
 
   mat result = zeros(64, 64);
-  size_t basisFuncsSize = basisFuncs.size();
 
-  for (size_t i = 0; i < basisFuncsSize; i++)
+  for (size_t i = 0; i < basisFuncs.n_slices; i++)
   {
-    mat basisProduct = basisFuncs[i] % basisFuncs[i];
+    mat basisProduct = basisFuncs.slice(i) % basisFuncs.slice(i);
     result += basisProduct * rho(i, i);
 
     for (size_t j = 0; j < i; j++)
     {
-      basisProduct = 2 * basisFuncs[i] % basisFuncs[j];
+      basisProduct = 2 * basisFuncs.slice(i) % basisFuncs.slice(j);
       result += basisProduct * rho(i, j);
     }
   }
