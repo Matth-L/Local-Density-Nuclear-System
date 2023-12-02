@@ -6,7 +6,7 @@
 #include "../headers/poly.h"
 using namespace arma;
 
-std::string cubeToDf3(const arma::cube& m)
+std::string cubeToDf3(const arma::cube &m)
 {
   std::stringstream ss(std::stringstream::out | std::stringstream::binary);
   int nx = m.n_rows;
@@ -40,17 +40,18 @@ int main()
 
   rho.load("./code/src/rho.arma", arma_ascii);
 
-  auto start = std::chrono::high_resolution_clock::now();
-
   Basis basis(1.935801664793151, 2.829683956491218, 14, 1.3);
 
   vec zVals = linspace(-20, 20, 64);
   vec rVals = linspace(-20, 20, 64);
+  mat result = zeros(64, 64); // number of points on r- and z- axes
+  uint i = 0;
 
   // car la fonction B est calculé pour chaque m, n et n_z, elle est donc calculé trop de fois
   // on la précalcule donc dans un cube qui est un vecteur de matrices
   std::vector<arma::mat> funcA(374);
   int k = 0;
+  auto start = std::chrono::high_resolution_clock::now();
   for (int mp = 0; mp < basis.mMax; mp++)
   {
     for (int np = 0; np < basis.nMax(mp); np++)
@@ -63,8 +64,6 @@ int main()
     }
   }
 
-  uint i = 0;
-  mat result = zeros(64, 64); // number of points on r- and z- axes
   for (int i = 0; i < 374; i++)
   {
 
