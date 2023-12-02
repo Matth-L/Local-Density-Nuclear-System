@@ -1,5 +1,6 @@
 Temps d'exec moyen : 15947.75 ms
-Test effectué 8 fois.
+Temps d'exec moyen après linspance (+ hermite no insert) : 14960 ms
+Test effectué 10 fois.
 Avec aucun autre processus ouvert hormis gnome-terminal.
 
 Information lié à la machine (neofetch) :

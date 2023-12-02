@@ -59,15 +59,11 @@ public:
     poly.calcLaguerre(6, 4, zVals); // compute generalized Laguerre polynomials for m in {0 ... 5} and n in {0 ... 3}
     calcVals = poly.laguerre(4, 2); // m = 4, n = 2
     targetVals = {14.405, 13.245, 8.52, 5.82, 5., 3.125, -2.395, 10.005};
-    cout << calcVals << endl;
-    cout << targetVals << endl;
     TS_ASSERT_DELTA(arma::norm(calcVals / targetVals - 1.0), 0.0, 1e-08);
     calcVals = poly.laguerre(5, 3); // m = 5, n = 3
     targetVals = {53.23983333, 47.95550000, 27.87200000, 17.5880,
                   14.66666667, 8.39583333, -0.81183333, 10.1015
                  };
-    cout << calcVals << endl;
-    cout << targetVals << endl;
     TS_ASSERT_DELTA(arma::norm(calcVals / targetVals - 1.0), 0.0, 1e-08);
     TS_TRACE("End Test 0");
   }
