@@ -1,5 +1,6 @@
 Temps d'exec moyen : 5840.25ms
-Run 8 fois
+Temps d'exec moyen après linspace : 5844.7ms
+Run 10 fois
 
 vecteur de matrice pour B puis A calculé pour chaque 3 itérations puis opérations effectué
 Avec aucun autre processus ouvert hormis gnome-terminal.
