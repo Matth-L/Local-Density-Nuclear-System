@@ -11,15 +11,15 @@ int main()
   mat rho;
   rho.load("./code/src/rho.arma", arma_ascii);
 
-  auto start = std::chrono::high_resolution_clock::now();
-
   Basis basis(1.935801664793151, 2.829683956491218, 14, 1.3);
 
   vec zVals = linspace(-20, 20, 64);
   vec rVals = linspace(-20, 20, 64);
+  mat result = zeros(64, 64);
 
   cube basisFuncs(64, 64, 374);
   int k = 0;
+  auto start = std::chrono::high_resolution_clock::now();
   for (int m = 0; m < basis.mMax; m++)
   {
     for (int n = 0; n < basis.nMax(m); n++)
@@ -31,8 +31,6 @@ int main()
       }
     }
   }
-
-  mat result = zeros(64, 64);
 
   for (size_t i = 0; i < basisFuncs.n_slices; i++)
   {
