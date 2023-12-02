@@ -6,7 +6,7 @@
 #include "../headers/poly.h"
 using namespace arma;
 
-std::string cubeToDf3(const arma::cube& m)
+std::string cubeToDf3(const arma::cube &m)
 {
   std::stringstream ss(std::stringstream::out | std::stringstream::binary);
   int nx = m.n_rows;
@@ -44,13 +44,16 @@ int main()
 
   uint i = 0;
 
-  mat result = zeros(64, 32); // number of points on r- and z- axes
-  vec zVals = linspace(-20, 20, 64);
+  mat result = zeros(64, 16); // number of points on r- and z- axes
   vec xVals = linspace(-10, 10, 32);
   vec yVals = linspace(-10, 10, 32);
+  vec zVals = linspace(-20, 20, 64);
 
-  vec rVals = sqrt(xVals % xVals + yVals % yVals);
-  // vec tVals = atan(yVals / xVals); // donne le meme résultat a revoir
+  // vec rVals = sqrt(xVals % xVals + yVals % yVals);
+
+  // vec tVals = zeros(32);
+
+  vec rVals = linspace(0, 10, 16); // 16
   for (int m = 0; m < basis.mMax; m++)
   {
     for (int n = 0; n < basis.nMax(m); n++)
@@ -64,7 +67,6 @@ int main()
           {
             for (int n_zp = 0; n_zp < basis.n_zMax(mp, np); n_zp++)
             {
-              // cout << "m = " << m << " n = " << n << " n_z = " << n_z << " mp = " << mp << " np = " << np << " n_zp = " << n_zp << endl;
               arma::mat funcA = basis.basisFunc(m, n, n_z, zVals, rVals);
               arma::mat funcB = basis.basisFunc(mp, np, n_zp, zVals, rVals);
               result += funcA % funcB * rho(i, j);
@@ -78,34 +80,39 @@ int main()
   }
 
   result.save("./bin/test.csv", csv_ascii);
-  // result.print();
 
-  // // pas comme ça
+  cube cubeResult = zeros(32, 32, 64);
 
-  cube RZTresult = zeros(64, 32, 32);
-  vec tVals = linspace(0, 2 * M_PI, 32);
-  for (int mSum = 0; mSum < 2 * basis.mMax - 1; mSum++)
+  for (int x = 0; x < 32; x++)
   {
-    for (int i = 0; i < 32; i++)
+    for (int y = 0; y < 32; y++)
     {
-      RZTresult.slice(i) = result * exp((i * mSum) * tVals[i]);
+      int distance = static_cast<int>(std::sqrt(std::pow(x - 16, 2) + std::pow(y - 16, 2)));
+      cout << "x: " << x << " y: " << y << " distance:" << distance << endl;
+      for (int z = 0; z < 64; z++)
+      {
+        // on fait la moyenne entre 2 points
+        if (distance < 16)
+        {
+          if (distance <= 0)
+          {
+            cubeResult(x, y, z) = result(z, 0);
+          }
+          else
+          {
+            cubeResult(x, y, z) = 0.5 * (result(z, distance - 1) + result(z, distance));
+          }
+        }
+        else
+        {
+          cubeResult(x, y, z) = 0;
+        }
+      }
     }
   }
-  RZTresult.print();
 
-  std::ofstream f;
-  f.open("example.df3", std::ios::out | std::ios::binary);
-  f << cubeToDf3(RZTresult);
-  f.close();
-  // cube XYZresult = zeros(64, 64, 64);
-  // for (int r = 0; r < RZTresult.n_rows; r++)
-  // {
-  //   for (int z = 0; z < RZTresult.n_cols; z++)
-  //   {
-  //     for (int t = 0; t < RZTresult.n_slices; t++)
-  //     {
-  //       // c'est nul
-  //     }
-  //   }
-  // }
+  std::string df3 = cubeToDf3(cubeResult);
+  std::ofstream file("example.df3", std::ios::binary | std::ios::out);
+  file << df3;
+  file.close();
 }

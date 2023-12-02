@@ -15,8 +15,7 @@ global_settings {
   assumed_gamma 1.0
 }
 
-camera {perspective location  <0.0, 20.0, -25.0> look_at <0.0,0.0,0.0> angle 45}
-//camera {perspective location  <0.0, 0.0, -25.0> look_at <0.0,0.0,0.0> angle 45}
+camera {perspective location  <0, 20.0, -25.0> look_at <0.0,0.0,0.0> angle 45}
 
 
 light_source
