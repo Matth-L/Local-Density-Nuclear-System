@@ -6,7 +6,7 @@
 #include "../headers/poly.h"
 using namespace arma;
 
-std::string cubeToDf3(const arma::cube &m)
+std::string cubeToDf3(const arma::cube& m)
 {
   std::stringstream ss(std::stringstream::out | std::stringstream::binary);
   int nx = m.n_rows;
@@ -43,67 +43,60 @@ int main()
   Basis basis(1.935801664793151, 2.829683956491218, 14, 1.3);
 
   uint i = 0;
-  // for (int m = 0; m < basis.mMax; m++)
-  //   for (int n = 0; n < basis.nMax(m); n++)
-  //     for (int n_z = 0; n_z < basis.n_zMax(m, n); n_z++)
-  //     {
-  //       std::cout << "Basis vector " << i << ": m=" << m << " n=" << n << " n_z=" << n_z << std::endl;
-  //       i++;
-  //     }
-  // mat result = zeros(64, 32); // number of points on r- and z- axes
-  // vec zVals = linspace(-20, 20, 64);
-  // vec xVals = linspace(-10, 10, 32);
-  // vec yVals = linspace(-10, 10, 32);
 
-  // vec rVals = sqrt(xVals % xVals + yVals % yVals);
-  // // vec tVals = atan(yVals / xVals); // donne le meme résultat a revoir
-  // for (int m = 0; m < basis.mMax; m++)
-  // {
-  //   for (int n = 0; n < basis.nMax(m); n++)
-  //   {
-  //     for (int n_z = 0; n_z < basis.n_zMax(m, n); n_z++)
-  //     {
-  //       uint j = 0;
-  //       for (int mp = 0; mp < basis.mMax; mp++)
-  //       {
-  //         for (int np = 0; np < basis.nMax(mp); np++)
-  //         {
-  //           for (int n_zp = 0; n_zp < basis.n_zMax(mp, np); n_zp++)
-  //           {
-  //             // cout << "m = " << m << " n = " << n << " n_z = " << n_z << " mp = " << mp << " np = " << np << " n_zp = " << n_zp << endl;
-  //             arma::mat funcA = basis.basisFunc(m, n, n_z, zVals, rVals);
-  //             arma::mat funcB = basis.basisFunc(mp, np, n_zp, zVals, rVals);
-  //             result += funcA % funcB * rho(i, j);
-  //             j++; // mat += mat % mat * double
-  //           }
-  //         }
-  //       }
-  //       i++;
-  //     }
-  //   }
-  // }
+  mat result = zeros(64, 32); // number of points on r- and z- axes
+  vec zVals = linspace(-20, 20, 64);
+  vec xVals = linspace(-10, 10, 32);
+  vec yVals = linspace(-10, 10, 32);
 
-  // result.save("./bin/test.csv", csv_ascii);
-  // // result.print();
+  vec rVals = sqrt(xVals % xVals + yVals % yVals);
+  // vec tVals = atan(yVals / xVals); // donne le meme résultat a revoir
+  for (int m = 0; m < basis.mMax; m++)
+  {
+    for (int n = 0; n < basis.nMax(m); n++)
+    {
+      for (int n_z = 0; n_z < basis.n_zMax(m, n); n_z++)
+      {
+        uint j = 0;
+        for (int mp = 0; mp < basis.mMax; mp++)
+        {
+          for (int np = 0; np < basis.nMax(mp); np++)
+          {
+            for (int n_zp = 0; n_zp < basis.n_zMax(mp, np); n_zp++)
+            {
+              // cout << "m = " << m << " n = " << n << " n_z = " << n_z << " mp = " << mp << " np = " << np << " n_zp = " << n_zp << endl;
+              arma::mat funcA = basis.basisFunc(m, n, n_z, zVals, rVals);
+              arma::mat funcB = basis.basisFunc(mp, np, n_zp, zVals, rVals);
+              result += funcA % funcB * rho(i, j);
+              j++; // mat += mat % mat * double
+            }
+          }
+        }
+        i++;
+      }
+    }
+  }
+
+  result.save("./bin/test.csv", csv_ascii);
+  // result.print();
 
   // // pas comme ça
 
-  // cube RZTresult = zeros(64, 32, 32);
-  // vec tVals = linspace(0, 2 * M_PI, 32);
-  // for (int mSum = 0; mSum < 2 * basis.mMax - 1; mSum++)
-  // {
-  //   for (int i = 0; i < RZTresult.n_slices; i++)
-  //   {
-  //     RZTresult.slice(i) = result * exp((i * mSum) * tVals);
-  //   }
-  // }
-  cube test = ones(32, 32, 64);
-  const cube ref = test;
-  std::ofstream f;
-  f.open("hey.df3");
-  f << cubeToDf3(ref) << std::endl;
-  f.close();
+  cube RZTresult = zeros(64, 32, 32);
+  vec tVals = linspace(0, 2 * M_PI, 32);
+  for (int mSum = 0; mSum < 2 * basis.mMax - 1; mSum++)
+  {
+    for (int i = 0; i < 32; i++)
+    {
+      RZTresult.slice(i) = result * exp((i * mSum) * tVals[i]);
+    }
+  }
+  RZTresult.print();
 
+  std::ofstream f;
+  f.open("example.df3", std::ios::out | std::ios::binary);
+  f << cubeToDf3(RZTresult);
+  f.close();
   // cube XYZresult = zeros(64, 64, 64);
   // for (int r = 0; r < RZTresult.n_rows; r++)
   // {
