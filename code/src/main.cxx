@@ -13,11 +13,13 @@ int main()
 
   Basis basis(1.935801664793151, 2.829683956491218, 14, 1.3);
 
-  vec zVals = linspace(-20, 20, 64);
-  vec rVals = linspace(-20, 20, 64);
-  mat result = zeros(64, 64);
+  // vec zVals = linspace(-20, 20, 64);
+  // vec rVals = linspace(-20, 20, 64);
+  arma::vec zVals = {-10.1, -8.4, -1.0, 0.0, 0.1, 4.3, 9.2, 13.7};
+  arma::vec rVals = {3.1, 2.3, 1.0, 0.0, 0.1, 4.3, 9.2, 13.7};
+  mat result = zeros(zVals.n_rows, zVals.n_rows);
 
-  cube basisFuncs(64, 64, 374);
+  cube basisFuncs(zVals.n_rows, zVals.n_rows, 374);
   int k = 0;
   auto start = std::chrono::high_resolution_clock::now();
   for (int m = 0; m < basis.mMax; m++)
