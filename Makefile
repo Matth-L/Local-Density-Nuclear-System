@@ -24,4 +24,4 @@ clean:
 	$(MAKE) -C doc clean
 
 pov : 
-	povray code/visu.pov
+	povray code/src/visu.pov -Oresultat.png
