@@ -61,27 +61,41 @@ public:
   /**
    * @brief Construct a new Basis object, with the basis deformation parameters and the basis truncation parameters
    *
+   * @param double value for the br parameter
+   * @param double value for the bz parameter
+   * @param uint value for N
+   * @param float value for Q
    */
   Basis(double, double, uint, float);
 
   /**
    * @brief compute the rPart of the basis function
    *
-   * @return arma::vec
+   * @param arma::vec all the values that r can take
+   * @param int the m parameter
+   * @param int the n parameter
+   * @return arma::vec the result
    */
   arma::vec rPart(arma::vec, int, int);
 
   /**
    * @brief compute the zPart of the basis function
    *
-   * @return arma::vec
+   * @param arma::vec all the values that z can take
+   * @param int the nz parameter
+   * @return arma::vec the result
    */
   arma::vec zPart(arma::vec, int);
 
   /**
    * @brief compute the basis function
-   *
-   * @return arma::mat
+   * 
+   * @param int the m parameter
+   * @param int the n parameter
+   * @param int the nz parameter
+   * @param arma::vec all the values that r can take
+   * @param arma::vec all the values that z can take
+   * @return arma::mat the result
    */
   arma::mat basisFunc(int, int, int, arma::vec, arma::vec);
 };
