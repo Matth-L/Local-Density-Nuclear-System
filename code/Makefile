@@ -23,7 +23,6 @@ $(OBJDIR)%.o: $(SRCDIR)%.cxx $(HEADERS)
 clean:
 	rm -f $(BINDIR)*
 	rm -f $(OBJS)
-	rm resultat.png
 
 style : 
 	astyle -A1 --recursive *.cxx *.h
