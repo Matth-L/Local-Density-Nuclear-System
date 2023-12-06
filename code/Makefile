@@ -1,5 +1,5 @@
 CC = g++
-CXXFLAGS = -Wextra -std=c++11
+CXXFLAGS = -Wextra -std=c++11 -O2
 LDFLAGS =
 LIBS = -larmadillo
 TARGET = ../bin/out

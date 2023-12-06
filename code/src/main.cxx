@@ -1,7 +1,7 @@
 #include <iostream>
 #include <armadillo>
 #include <cmath>
-#include <fstream>
+#include <chrono>
 #include "../headers/basis.h"
 #include "../headers/poly.h"
 using namespace arma;
@@ -37,47 +37,44 @@ std::string cubeToDf3(const arma::cube &m)
 int main()
 {
   mat rho;
-
   rho.load("./code/src/rho.arma", arma_ascii);
 
   Basis basis(1.935801664793151, 2.829683956491218, 14, 1.3);
 
-  uint i = 0;
+  // vec zVals = linspace(-20, 20, 64);
+  // vec rVals = linspace(-20, 20, 64);
+  arma::vec zVals = {-10.1, -8.4, -1.0, 0.0, 0.1, 4.3, 9.2, 13.7};
+  arma::vec rVals = {3.1, 2.3, 1.0, 0.0, 0.1, 4.3, 9.2, 13.7};
+  mat result = zeros(zVals.n_rows, zVals.n_rows);
 
-  mat result = zeros(64, 16); // number of points on r- and z- axes
-  vec xVals = linspace(-10, 10, 32);
-  vec yVals = linspace(-10, 10, 32);
-  vec zVals = linspace(-20, 20, 64);
-
-  // vec rVals = sqrt(xVals % xVals + yVals % yVals);
-
-  // vec tVals = zeros(32);
-
-  vec rVals = linspace(0, 10, 16); // 16
+  cube basisFuncs(zVals.n_rows, zVals.n_rows, 374);
+  int k = 0;
+  auto start = std::chrono::high_resolution_clock::now();
   for (int m = 0; m < basis.mMax; m++)
   {
     for (int n = 0; n < basis.nMax(m); n++)
     {
       for (int n_z = 0; n_z < basis.n_zMax(m, n); n_z++)
       {
-        uint j = 0;
-        for (int mp = 0; mp < basis.mMax; mp++)
-        {
-          for (int np = 0; np < basis.nMax(mp); np++)
-          {
-            for (int n_zp = 0; n_zp < basis.n_zMax(mp, np); n_zp++)
-            {
-              arma::mat funcA = basis.basisFunc(m, n, n_z, zVals, rVals);
-              arma::mat funcB = basis.basisFunc(mp, np, n_zp, zVals, rVals);
-              result += funcA % funcB * rho(i, j);
-              j++; // mat += mat % mat * double
-            }
-          }
-        }
-        i++;
+        basisFuncs.slice(k) = (basis.basisFunc(m, n, n_z, zVals, rVals));
+        k++;
       }
     }
   }
+
+  // fonctionne pour i = 0 car ne fait pas la boucle j
+  for (size_t i = 0; i < basisFuncs.n_slices; i++)
+  {
+    mat basisProduct = basisFuncs.slice(i) % basisFuncs.slice(i);
+    result += basisProduct * rho(i, i);
+
+    for (size_t j = 0; j < i; j++)
+    {
+      basisProduct = 2 * basisFuncs.slice(i) % basisFuncs.slice(j);
+      result += basisProduct * rho(i, j);
+    }
+  }
+  std::cout << "Temps d'exécution : " << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - start).count() << "ms" << std::endl;
 
   result.save("./bin/test.csv", csv_ascii);
 

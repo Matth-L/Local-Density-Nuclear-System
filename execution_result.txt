@@ -1,0 +1,24 @@
+Temps d'exec moyen :  pas encore fait
+
+utilisation de variable speed up le code ?? 
+
+Information lié à la machine (neofetch) :
+
+       _,met$$$$$gg.         ┌─────────────────────────────────────────────────
+    ,g$$$$$$$$$$$$$$$P.      matth-l@debianinator
+  ,g$$P"     """Y$$.".       └─────────────────────────────────────────────────
+ ,$$P'              `$$$.    ┌─────────────────────────────────────────────────
+',$$P       ,ggs.     `$$b:   OS-> Linux
+`d$$'     ,$P"'   .    $$$   │ ├ -> Debian GNU/Linux 12 (bookworm) x86_64
+ $$P      d$'     ,    $$P   │ ├ -> 6.1.0-13-amd64
+ $$:      $$.   -    ,d$$'   │ └ -> zsh 5.9
+ $$;      Y$b._   _,d$P'      DE/WM-> Mutter
+ Y$$.    `.`"Y$$$$P"'        │ ├ -> Orchis-Dark [GTK2/3]
+ `$$b      "-.__             │ ├ -> candy-icons [GTK2/3]
+  `Y$$                       │ └ -> cool-retro-term
+   `Y$$.                      PC-> 81W1 IdeaPad 3 15ADA05
+     `$$b.                   │ ├ -> AMD Ryzen 5 3500U with Radeon Vega Mobile G
+       `Y$$b.                │ ├ -> AMD ATI Radeon Vega Series / Radeon Vega Mo
+          `"Y$b._            │ ├ -> 1755MiB / 9817MiB
+              `"""           │ ├ -> 19 mins
+                             └─────────────────────────────────────────────────

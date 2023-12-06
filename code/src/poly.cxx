@@ -34,25 +34,25 @@ vec Poly::hermite(int n)
  */
 void Poly::calcHermite(int n, vec z)
 {
+  polynomeMat = mat(z.n_elem, n + 1);
   vec twoZ = 2 * z;
-  // TODO .col au lieu d'insert_cols
   for (int i = 0; i <= n; i++)
   {
     if (i == 0)
     {
       // n=0 => H0 = 1
-      polynomeMat.insert_cols(i, ones(z.n_elem));
+      polynomeMat.col(i) = ones(z.n_elem);
     }
     else if (i == 1)
     {
       // n=1 => H1 = 2z
-      polynomeMat.insert_cols(i, twoZ);
+      polynomeMat.col(i) = twoZ;
     }
     else
     {
       // n => Hn = 2zHn-1 - 2(n-1)Hn-2
-      polynomeMat.insert_cols(i, twoZ % polynomeMat.col(i - 1) -
-                              2 * (i - 1) * polynomeMat.col(i - 2));
+      polynomeMat.col(i) = twoZ % polynomeMat.col(i - 1) -
+                           2 * (i - 1) * polynomeMat.col(i - 2);
     }
   }
 }
@@ -101,7 +101,7 @@ void Poly::calcLaguerre(int mInput, int nInput, vec z)
         vec b = polynomeLaguerre.slice(m).col(n - 2);
         // séparer en ce qui dépend de z et ce qui ne dépend pas
         polynomeLaguerre.slice(m).col(n) =
-          (2.0 + (m - 1.0 - z) / n) % a - (1.0 + (m - 1.0) / n) * b;
+            (2.0 + (m - 1.0 - z) / n) % a - (1.0 + (m - 1.0) / n) * b;
       }
     }
   }
