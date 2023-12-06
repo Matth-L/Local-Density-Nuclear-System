@@ -17,45 +17,45 @@
 class Poly
 {
 public:
-  /**
-   * @brief this matrix contains
-   * n = 0 is a col of 1 ...
-   */
-  arma::mat polynomeMat;
+    /**
+     * @brief this matrix contains
+     * n = 0 is a col of 1 ...
+     */
+    arma::mat polynomeMat;
 
-  /**
-   * @brief the cube that contains the value of the laguerre's polynome
-   */
-  arma::cube polynomeLaguerre;
+    /**
+     * @brief the cube that contains the value of the laguerre's polynome
+     */
+    arma::cube polynomeLaguerre;
 
-  /**
-   * @brief get the matrix of the hermite's polynome
-   *
-   * @return arma::mat
-   */
-  arma::mat getPolynomeMat();
+    /**
+     * @brief get the matrix of the hermite's polynome
+     *
+     * @return arma::mat
+     */
+    arma::mat getPolynomeMat();
 
-  /**
-   * @brief get the row of the hermite's matrix
-   */
-  arma::vec hermite(int);
+    /**
+     * @brief get the row of the hermite's matrix
+     */
+    arma::vec hermite(int);
 
-  /**
-   * @brief getting the value of the laguerre's polynome
-   *
-   * @return arma::vec
-   */
-  arma::vec laguerre(int, int);
+    /**
+     * @brief getting the value of the laguerre's polynome
+     *
+     * @return arma::vec
+     */
+    arma::vec laguerre(int, int);
 
-  /**
-   * @brief compute the value of the hermite's polynome using n and a vector of values Z
-   */
-  void calcHermite(int, arma::vec);
+    /**
+     * @brief compute the value of the hermite's polynome using n and a vector of values Z
+     */
+    void calcHermite(int, arma::vec);
 
-  /**
-   * @brief compute the value of the laguerre's polynome using n and a vector of values Z
-   */
-  void calcLaguerre(int, int, arma::vec);
+    /**
+     * @brief compute the value of the laguerre's polynome using n and a vector of values Z
+     */
+    void calcLaguerre(int, int, arma::vec);
 };
 
 #endif // POLY_H

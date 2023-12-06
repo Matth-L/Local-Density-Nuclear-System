@@ -22,3 +22,6 @@ clean:
 	$(MAKE) -C code clean
 	$(MAKE) -C tests clean
 	$(MAKE) -C doc clean
+
+pov : 
+	povray code/visu.pov
