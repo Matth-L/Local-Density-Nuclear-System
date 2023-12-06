@@ -19,10 +19,14 @@ class Poly
 public:
   /**
    * @brief this matrix contains
-   * TODO Faire les commetaires , n = 0 correspond à la colonne
-   * it will contains the value of the hermite's polynome for each z
+   * n = 0 is a col of 1 ...
    */
   arma::mat polynomeMat;
+
+  /**
+   * @brief the cube that contains the value of the laguerre's polynome
+   */
+  arma::cube polynomeLaguerre;
 
   /**
    * @brief get the matrix of the hermite's polynome
@@ -37,15 +41,21 @@ public:
   arma::vec hermite(int);
 
   /**
+   * @brief getting the value of the laguerre's polynome
+   *
+   * @return arma::vec
+   */
+  arma::vec laguerre(int, int);
+
+  /**
    * @brief compute the value of the hermite's polynome using n and a vector of values Z
    */
   void calcHermite(int, arma::vec);
 
-  arma::cube polynomeLaguerre;
-
+  /**
+   * @brief compute the value of the laguerre's polynome using n and a vector of values Z
+   */
   void calcLaguerre(int, int, arma::vec);
-
-  arma::vec laguerre(int, int);
 };
 
 #endif // POLY_H
