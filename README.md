@@ -1,10 +1,10 @@
-# Quantum Harmonic Oscillator
+# Local Density Nuclear System
 
-This project is a class assignment for the HPC course at ENSIIE. Our goal is to implement the quantum harmonic oscillator in C++ and plot the values in Python.
+This project is a class assignment for the HPC course at ENSIIE. Our goal is to plot the local density of a nuclear system.
 
 ## Table of Contents
 
-- [Quantum Harmonic Oscillator](#quantum-harmonic-oscillator)
+- [Local Density Nuclear System](#local-density-nuclear-system)
   - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
   - [Requirements](#requirements)
@@ -14,9 +14,7 @@ This project is a class assignment for the HPC course at ENSIIE. Our goal is to 
 
 ## Introduction
 
-The quantum harmonic oscillator is used in the world of physics to describe the behavior of a system that experiences a restoring force proportional to the displacement from equilibrium position.
-This is an important model in quantum mechanics, therefore we will implement it in C++ and plot the values in Python. 
-To do so, we will use the hermite polynomials, the 1D schrodinger equation, 
+TODO 
 
 ## Requirements
 
@@ -28,11 +26,12 @@ This project uses the following libraries:
 - matplotlib (Python library)
 - astyle (code formatter)
 - doxygen (documentation generator)
+- povray 
 
 for Debian distributions, you can install the libraries using the following command:
 
 ```sh
-sudo apt-get install libarmadillo-dev cxxtest python3 python3-matplotlib build-essential astyle doxygen
+sudo apt-get install libarmadillo-dev cxxtest python3 python3-matplotlib build-essential astyle doxygen povray
 ```
 
 ## Installation
@@ -40,12 +39,11 @@ sudo apt-get install libarmadillo-dev cxxtest python3 python3-matplotlib build-e
 To install this project on your computer, you can clone the repository using the following command:
 
 ```sh
-git clone https://gitlab.pedago.ensiie.fr/romeo.louati/quantum-harmonic-oscillator.git 
+git clone https://gitlab.pedago.ensiie.fr/romeo.louati/local-density-nuclear-system
 ```
 
 ## Usage
 
-The result will be either computed using the C++ code or the Python code. The C++ code will be used to compute the values of the quantum harmonic oscillator and the Python code will be used to plot the values.
 We use the armadillo's library to do most of our calculations. This library is one of the fastest available to do linear algebra, it uses LAPACK, BLAS ...
 
 See more here : http://arma.sourceforge.net/
@@ -55,6 +53,7 @@ See more here : http://arma.sourceforge.net/
 There is different option that can be done using makefile : 
 
 If you wish to compile the entire project, including doxygen documentation, run the following command:
+
 ```makefile
 make 
 ```
