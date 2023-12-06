@@ -34,6 +34,7 @@ int main()
     }
   }
 
+  // fonctionne pour i = 0 car ne fait pas la boucle j
   for (size_t i = 0; i < basisFuncs.n_slices; i++)
   {
     mat basisProduct = basisFuncs.slice(i) % basisFuncs.slice(i);
@@ -48,7 +49,6 @@ int main()
   std::cout << "Temps d'exécution : " << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - start).count() << "ms" << std::endl;
 
   result.save("./bin/test.csv", csv_ascii);
-  // result.print();
 
   return 0;
 }
