@@ -41,13 +41,13 @@ int main()
 
   Basis basis(1.935801664793151, 2.829683956491218, 14, 1.3);
 
-  // vec zVals = linspace(-20, 20, 64);
-  // vec rVals = linspace(-20, 20, 64);
-  arma::vec zVals = {-10.1, -8.4, -1.0, 0.0, 0.1, 4.3, 9.2, 13.7};
-  arma::vec rVals = {3.1, 2.3, 1.0, 0.0, 0.1, 4.3, 9.2, 13.7};
-  mat result = zeros(zVals.n_rows, zVals.n_rows);
+  vec zVals = linspace(-20, 20, 64);
+  vec rVals = linspace(0, 10, 16);
+  //arma::vec zVals = {-10.1, -8.4, -1.0, 0.0, 0.1, 4.3, 9.2, 13.7};
+  //arma::vec rVals = {3.1, 2.3, 1.0, 0.0, 0.1, 4.3, 9.2, 13.7};
+  mat result = zeros(zVals.n_rows, rVals.n_rows);
 
-  cube basisFuncs(zVals.n_rows, zVals.n_rows, 374);
+  cube basisFuncs(zVals.n_rows, rVals.n_rows, 374);
   int k = 0;
   auto start = std::chrono::high_resolution_clock::now();
   for (int m = 0; m < basis.mMax; m++)
@@ -85,7 +85,6 @@ int main()
     for (int y = 0; y < 32; y++)
     {
       int distance = static_cast<int>(std::sqrt(std::pow(x - 16, 2) + std::pow(y - 16, 2)));
-      cout << "x: " << x << " y: " << y << " distance:" << distance << endl;
       for (int z = 0; z < 64; z++)
       {
         // on fait la moyenne entre 2 points
