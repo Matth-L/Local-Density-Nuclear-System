@@ -127,7 +127,10 @@ style :
 clean: 
 	$(MAKE) -C code clean
 	$(MAKE) -C doc clean
-	$(MAKE) -C tests clean
+	$(MAKE) -C tests clean 
+
+pov : 
+    povray code/src/visu.pov
 
 ```
 ---
@@ -167,6 +170,7 @@ clean:
 
 ---
 # V1
+
 ---
 # V2
 ---
