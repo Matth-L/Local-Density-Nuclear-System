@@ -13,7 +13,6 @@ This project is a class assignment for the HPC course at ENSIIE. Our goal is to 
   - [Commands](#commands)
 
 ## Introduction
-
 TODO 
 ![Local Density Nuclear System](/pres/image/resultat.png)
 

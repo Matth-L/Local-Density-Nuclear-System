@@ -46,12 +46,12 @@ class: animated fadeIn middle numbers
 2. Structure du projet
 3. Chaîne de compilation
 4. Documentation
-5. V1
-6. V2
-7. V3
-8. V4
-9. V5
-10. V6
+5. **V1** Déplacement des boucles
+6. **V2** Précalcul de B
+7. **V3** fission de boucles , rho calculé après
+8. **V4** symétrie de rho
+9. **V5** ajout de var temp (plus rapide ??)
+10. **V6** ? Idée d'optimisation
 11. Résultats et Plot 
 12. Conclusion
 
@@ -202,37 +202,82 @@ for (int m = 0; m < basis.mMax; m++)
 }
 ```
 ---
+# Speed-up
+
+graphique de notre speed up 
+(mettre ça dans un csv puis le plot avec plotly)
+---
 # V1 Déplacement des boucles
 
 `$$
+\color{red}
 \sum_m\sum_n\sum_{n\_z}
-\sum_{mp}\sum_{np}\sum_{n\_zp} 
-A[m,n,n\_z] B[mp,np,n\_zp] 
+\color{black}
+\sum_{mp}\sum_{np}\sum_{n\_zp}
+\color{red}
+A[m,n,n\_z]
+\color{black}B[mp,np,n\_zp] 
 \rho[m,n,n\_z,mp,np,n\_zp]
 $$`
 
-On déplace A à l'intérieur de la boucle
+-- 
 
 
 `$$
+\color{red}
 \sum_m\sum_n\sum_{n\_z}
 A[m,n,n\_z]
+\color{black}
 \sum_{mp}\sum_{np}\sum_{n\_zp} 
 B[mp,np,n\_zp] 
 \rho[m,n,n\_z,mp,np,n\_zp]
 $$`
 
+-- 
+
+Gain : ??? 
 
 ---
-# V2
+# V2 Précalcul de B 
+
+`$$
+\color{magenta}
+\sum_m\sum_n\sum_{n\_z}
+\color{black}
+A[m,n,n\_z]
+\color{red}
+\sum_{mp}\sum_{np}\sum_{n\_zp} 
+B[mp,np,n\_zp] 
+\color{black}
+\rho[m,n,n\_z,mp,np,n\_zp]
+$$`
+
+B est calculé pour chaque m, n et n_z.
+Elle est donc calculé trop de fois.
+Le but est de la précalculé dans un cube qui sera un vecteur de matrice.
+
 ---
-# V3
+# V3 fission de boucles , rho calculé après
+
+(faire appel au vecteur de dépendance pour montrer que c'est la même ? I.E ARMA)
 ---
-# V4
+# V4 symétrie de rho
 ---
-# V5
+# V5 ajout de var temp (plus rapide ??)
 ---
-# V6
+# V6 ? Idée d'optimisation 
+
+-O2 
+
+rho semble etre une matrice par bloc
+---
+# Résultats
+
+plot 2D, plot 3D
+---
+# Méthodes d'affichage des résultats
+
+conversion , estimation, povray
 ---
 # Conclusion
 ---
