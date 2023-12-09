@@ -13,7 +13,9 @@ using namespace arma;
 /**
  * @brief used for the basis truncation
  *
- * @param i
+ * @param i index
+ * @param N basis truncation parameter
+ * @param Q basis truncation parameter
  * @return float
  */
 int v(int i, int N, float Q)
@@ -23,10 +25,10 @@ int v(int i, int N, float Q)
 /**
  * @brief Construct a new Basis:: Basis object
  *
- * @param br
- * @param bz
- * @param N
- * @param Q
+ * @param brInput value for the br parameter
+ * @param bzInput value for the bz parameter
+ * @param NInput uint value for N (basis truncation parameter)
+ * @param QInput float value for Q (basis truncation parameter)
  */
 Basis::Basis(double brInput, double bzInput, uint NInput, float QInput)
 {
@@ -64,10 +66,13 @@ Basis::Basis(double brInput, double bzInput, uint NInput, float QInput)
 
 /**
  * @brief compute the rPart of the basis function
- *
- * @return arma::vec
+ * 
+ * @param r all the values that r can take
+ * @param m the m parameter
+ * @param n the n parameter
+ * @return arma::vec 
  */
-vec Basis::rPart(vec r, int m, int n)
+arma::vec Basis::rPart(arma::vec r, int m, int n)
 {
     int am = abs(m);
     double c = (1 / (br * sqrt(M_PI))) * sqrt(tgamma(n + 1) / tgamma(n + am + 1));
@@ -81,11 +86,13 @@ vec Basis::rPart(vec r, int m, int n)
 };
 
 /**
- * @brief compute the zPart of the basis function
- *
- * @return arma::vec
+ * @brief computes the zPart of the basis function
+ * 
+ * @param z all the values that z can take
+ * @param nz the nz parameter
+ * @return arma::vec 
  */
-vec Basis::zPart(vec z, int nz)
+arma::vec Basis::zPart(arma::vec z, int nz)
 {
     Poly poly;
     poly.calcHermite(nz + 1, z / bz);
@@ -99,10 +106,15 @@ vec Basis::zPart(vec z, int nz)
 
 /**
  * @brief compute the basis function
- *
- * @return arma::mat
+ * 
+ * @param m the m parameter
+ * @param n the n parameter
+ * @param n_z the nz parameter
+ * @param z all the values that r can take
+ * @param r all the values that z can take
+ * @return matrice with values of basis function 
  */
-mat Basis::basisFunc(int m, int n, int n_z, vec z, vec r)
+arma::mat Basis::basisFunc(int m, int n, int n_z, arma::vec z, arma::vec r)
 {
     return zPart(z, n_z) * rPart(r, m, n).t();
 };

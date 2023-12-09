@@ -40,7 +40,7 @@ vec Poly::hermite(int n)
  * @param z vector of the z values
  * @return vec the hermite's polynome
  */
-void Poly::calcHermite(int n, vec z)
+void Poly::calcHermite(int n, arma::vec z)
 {
     polynomeMat = mat(z.n_elem, n + 1);
     vec twoZ = 2 * z;
@@ -84,7 +84,7 @@ vec Poly::laguerre(int m, int n)
  * @param nInput number N of the laguerre's polynome
  * @param z vector of the z values
  */
-void Poly::calcLaguerre(int mInput, int nInput, vec z)
+void Poly::calcLaguerre(int mInput, int nInput, arma::vec z)
 {
 
     /*
