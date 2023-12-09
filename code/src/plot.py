@@ -3,12 +3,10 @@ import matplotlib.pyplot as plt
 
 mat = np.loadtxt("bin/test.csv", delimiter=",", dtype=float)
 
-plt.figure(figsize=(10, 5))
-
 plt.pcolormesh(mat)
 plt.xlabel("Values of r [fm]")
 plt.ylabel("Values of z [fm]")
-plt.title("Plot of the nuclear density for mat")
+plt.title("Plot of the local density of a nuclear system")
 plt.colorbar()
 
 plt.show()

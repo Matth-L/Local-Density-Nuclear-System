@@ -43,58 +43,19 @@ class: animated fadeIn middle numbers
 ---
 # Table des matières
 1. Courte Introduction
-2. Structure du projet
 3. Chaîne de compilation
 4. Documentation
-5. **V1** Déplacement des boucles
-6. **V2** Précalcul de B
-7. **V3** fission de boucles , rho calculé après
-8. **V4** symétrie de rho
-9. **V5** ajout de var temp (plus rapide ??)
-10. **V6** ? Idée d'optimisation
-11. Résultats et Plot 
+5. Résultats et Plot 
+6. **V1** Déplacement des boucles
+7. **V2** Précalcul de B
+8. **V3** fission de boucles , rho calculé après
+9. **V4** symétrie de rho
+10. **V5** ajout de var temp (plus rapide ??)
+11. **V6** ? Idée d'optimisation
 12. Conclusion
-
 ---
 
 # Courte Introduction
-
----
-
-# Structure du projet
-## Arborescence
-
-.alert.tree.hcenter[
-*projet*
-* *bin*
-* *code*
-    * *data*
-    * *headers*
-    * *obj*
-    * *src*
-    * **Makefile**
-    * mainpage.md
-* *doc*
-    * **Makefile**
-    * Doxyfile
-* *pres*
-* *tests*
-    * **Makefile**
-* **Makefile**
-* AUTHORS.md
-* README.md 
-]
----
-# Structure du projet
-## Choix des classes
-
-.row[
-.w49.col[
-Différentes classes du projet:
-* Basis
-* Poly 
-]
-]
 
 ---
 # Chaîne de compilation  
@@ -105,9 +66,9 @@ Notre chaîne de compilation se base sur des Makefile. Nous avons un Makefile g�
 # Makefile général
 MAKE = make
 
-.PHONY: code doc clean tests
+.PHONY: code doc clean tests pov
 
-all: code doc tests
+all: code doc tests pov
 
 # Appel des sous-makefile
 code:
@@ -169,6 +130,28 @@ pov :
       Qui formate le code avec astyle. Permettant d'avoir de la cohérence dans le code.
 
 ---
+
+# Résultat 2D 
+
+.hcenter.w80[
+![Résultat 2D](./image/resultat_2D.png)
+]
+
+---
+
+# Résultat 3D
+.hcenter.w70[
+![Résultat 3D](./image/resultat_3D.png)
+]
+
+---
+
+# Explication 3D 
+
+AMA TODO 
+
+---
+
 # Problème initiale
 
 `$$
@@ -202,10 +185,12 @@ for (int m = 0; m < basis.mMax; m++)
 }
 ```
 ---
+
 # Speed-up
 
 graphique de notre speed up 
 (mettre ça dans un csv puis le plot avec plotly)
+
 ---
 # V1 Déplacement des boucles
 
