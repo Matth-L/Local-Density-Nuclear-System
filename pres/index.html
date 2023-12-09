@@ -44,18 +44,64 @@ class: animated fadeIn middle numbers
 # Table des matières
 1. Courte Introduction
 3. Chaîne de compilation
-4. Documentation
-5. Résultats et Plot 
-6. **V1** Déplacement des boucles
-7. **V2** Précalcul de B
-8. **V3** fission de boucles , rho calculé après
-9. **V4** symétrie de rho
-10. **V5** ajout de var temp (plus rapide ??)
-11. **V6** ? Idée d'optimisation
-12. Conclusion
+4. Exemples de code
+5. Documentation
+6. Résultats et Plot 
+7. **V1** Déplacement des boucles
+8. **V2** Précalcul de B
+9. **V3** fission de boucles , rho calculé après
+10. **V4** symétrie de rho
+11. **V5** ajout de var temp (plus rapide ??)
+12. **V6** ? Idée d'optimisation
+13. Conclusion
 ---
 
 # Courte Introduction
+## Densité Locale
+Le but de ce projet est de calculer la densité locale d'un système nucléaire:
+
+`$$\rho(r) \equiv \sum_{a}^{} \sum_{b}^{} \rho_{ab}\psi_a(r)\psi_b^{*}(r)$$`
+
+On peut aussi écrire: `$$\psi_a = \psi_{m_a,n_a,n_{za}}$$`
+
+La base utilisée ne sera pas infinie, il y aura donc une troncation de cette base pour des raisons pratiques.
+---
+# Courte Introduction
+## Fonctions de la base
+
+`$$\psi_{m,n,n_z}(r_{\bot},\theta,z) \equiv Z(z,n_z).R(r_{\bot},m,n).e^{im\theta}$$`
+
+avec:
+
+`$$Z(z,n_z) \equiv \frac{1}{\sqrt{b_z}}\frac{1}{\sqrt{2^{n_z}\sqrt{\pi}n_z!}}e^{-\frac{z^2}{2b_z^2}}H_{n_z}(\frac{z}{b_z})$$`
+
+`$$R(r_{\bot},m,n) \equiv \frac{1}{b_{\bot}\sqrt{\pi}}\sqrt{\frac{n!}{(n+|m|)!}}e^{-\frac{r_{\bot}^2}{2b_{\bot}^2}}(\frac{r_{\bot}}{b_{\bot}})^{|m|}L_n^{|m|}(\frac{r_{\bot}^2}{b_{\bot}^2})$$`
+
+et:
+
+- `$b_{\bot},b_z$` les paramètres de déformation de la base
+- `$H_k(\zeta)$` les polynômes d'Hermite
+- `$L_k^m(\eta)$` les polynômes de Laguerre généralisé
+
+
+---
+# Courte Introduction
+## Troncation de la base
+
+Le principe est de tronquer la base `$(m,n,n_z)$`. Pour faire cela, il nous faut:
+
+- `$\nu(i) \equiv (N+2).Q^{\frac{2}{3}} + \frac{1}{2} - i.Q$`
+- `$m^{max} \equiv sup(i:\nu{i} \ge 1)$`
+
+avec `$ N \in \mathbb{N}^{+},Q \in \mathbb{R}^{+}$` les paramètres de troncation de la base.
+
+Les valeurs possibles pour chacun des chiffres quantiques sont définis de la façon suivante:
+
+`$$0 \le m < mMax \equiv m^{max}$$`
+
+`$$0 \le n < nMax[m] \equiv \frac{1}{2}(m^{max}-m-1)+1$$`
+
+`$$0 \le n_z < n_{z}Max[m,n] \equiv \nu(m+m^{max}+1)$$`
 
 ---
 # Chaîne de compilation  
@@ -156,6 +202,12 @@ clean:
         Qui lance povray sur le fichier résultat
 
 ---
+# Exemple de codes
+
+---
+# Documentation
+
+---
 
 # Résultat 2D 
 
@@ -178,7 +230,7 @@ AMA TODO
 
 ---
 
-# Problème initiale
+# Problème initial
 
 `$$
 \sum_m\sum_n\sum_{n\_z}\sum_{mp}\sum_{np}\sum_{n\_zp} A[m,n,n\_z] B[mp,np,n\_zp] 
