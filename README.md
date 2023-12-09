@@ -13,8 +13,22 @@ This project is a class assignment for the HPC course at ENSIIE. Our goal is to 
   - [Commands](#commands)
 
 ## Introduction
+
 TODO 
+
+We had to plot the local density of a nuclear system.
+We plotted the local density of a nuclear system using povray.
 ![Local Density Nuclear System](/pres/image/resultat.png)
+
+
+We also had to optimize our code as mush as possible.
+We used the following tools to do so:
+- loop optimization
+- precalculation of a matrix in a cube  
+- factorization 
+![Optimization](/pres/image/benchmark.png)
+
+Total optimisation : ~x95
 
 ## Requirements
 

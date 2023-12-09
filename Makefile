@@ -12,10 +12,16 @@ tests:
 doc:
 	$(MAKE) -C doc
 
+bench : 
+	$(MAKE) -C code 
+	$(MAKE) -C benchmark
 
 style : 
 	astyle -A1 --recursive *.cxx *.h 
 	find . -type f -name '*.orig' -delete
+
+pov : 
+	povray code/src/visu.pov -Oresultat.png
 
 clean: 
 	$(MAKE) -C code clean
@@ -24,10 +30,4 @@ clean:
 	$(MAKE) -C benchmark clean
 	rm -rf .vscode
 
-pov : 
-	povray code/src/visu.pov -Oresultat.png
-
-bench : 
-	$(MAKE) -C code 
-	$(MAKE) -C benchmark
 

@@ -63,35 +63,37 @@ class: animated fadeIn middle numbers
 Notre chaîne de compilation se base sur des Makefile. Nous avons un Makefile général qui appelle des sous-Makefile.
 
 ```makefile
-# Makefile général
 MAKE = make
+.PHONY: code doc clean tests style pov bench
 
-.PHONY: code doc clean tests pov
+all: code tests doc style pov 
 
-all: code doc tests pov
-
-# Appel des sous-makefile
 code:
 	$(MAKE) -C code
-
-doc:
-	$(MAKE) -C doc
 
 tests: 
 	$(MAKE) -C tests
 
-# outil permettant de formater le code
+doc:
+	$(MAKE) -C doc
+
+bench : 
+	$(MAKE) -C code 
+	$(MAKE) -C benchmark
+
 style : 
 	astyle -A1 --recursive *.cxx *.h 
 	find . -type f -name '*.orig' -delete
 
+pov : 
+	povray code/src/visu.pov -Oresultat.png
+
 clean: 
 	$(MAKE) -C code clean
+	$(MAKE) -C tests clean
 	$(MAKE) -C doc clean
-	$(MAKE) -C tests clean 
-
-pov : 
-    povray code/src/visu.pov
+	$(MAKE) -C benchmark clean
+	rm -rf .vscode
 
 ```
 ---
@@ -128,6 +130,30 @@ pov :
       - **style** 
 
       Qui formate le code avec astyle. Permettant d'avoir de la cohérence dans le code.
+
+---
+
+# Chaîne de compilation  
+- make :
+      - code
+      - doc 
+      - tests
+      - style
+      - **bench**
+      
+        Qui lance autant de test que donné en paramètre et crée un CSV avec les résultats.
+
+---
+# Chaîne de compilation  
+- make :
+      - code
+      - doc 
+      - tests
+      - style
+      - bench
+      - **pov**
+      
+        Qui lance povray sur le fichier résultat
 
 ---
 
@@ -188,8 +214,9 @@ for (int m = 0; m < basis.mMax; m++)
 
 # Speed-up
 
-graphique de notre speed up 
-(mettre ça dans un csv puis le plot avec plotly)
+![Speed-up](./image/benchmark.png)
+
+Test effectué 100 fois. 
 
 ---
 # V1 Déplacement des boucles
@@ -252,17 +279,8 @@ Le but est de la précalculé dans un cube qui sera un vecteur de matrice.
 ---
 # V6 ? Idée d'optimisation 
 
--O2 
-
 rho semble etre une matrice par bloc
----
-# Résultats
 
-plot 2D, plot 3D
----
-# Méthodes d'affichage des résultats
-
-conversion , estimation, povray
 ---
 # Conclusion
 ---
