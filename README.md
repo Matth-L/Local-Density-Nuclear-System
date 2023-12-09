@@ -18,7 +18,7 @@ TODO
 
 We had to plot the local density of a nuclear system.
 We plotted the local density of a nuclear system using povray.
-![Local Density Nuclear System](/pres/image/resultat.png)
+![Local Density Nuclear System](/pres/image/resultat_3D.png)
 
 
 We also had to optimize our code as mush as possible.
