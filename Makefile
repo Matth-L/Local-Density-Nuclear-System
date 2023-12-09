@@ -1,8 +1,7 @@
 MAKE = make
+.PHONY: code doc clean tests style pov bench
 
-.PHONY: code doc clean tests style 
-
-all: code tests doc 
+all: code tests doc style pov 
 
 code:
 	$(MAKE) -C code
@@ -22,6 +21,13 @@ clean:
 	$(MAKE) -C code clean
 	$(MAKE) -C tests clean
 	$(MAKE) -C doc clean
+	$(MAKE) -C benchmark clean
+	rm -rf .vscode
 
 pov : 
 	povray code/src/visu.pov -Oresultat.png
+
+bench : 
+	$(MAKE) -C code 
+	$(MAKE) -C benchmark
+

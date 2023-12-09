@@ -66,11 +66,11 @@ Basis::Basis(double brInput, double bzInput, uint NInput, float QInput)
 
 /**
  * @brief compute the rPart of the basis function
- * 
+ *
  * @param r all the values that r can take
  * @param m the m parameter
  * @param n the n parameter
- * @return arma::vec 
+ * @return arma::vec
  */
 arma::vec Basis::rPart(arma::vec r, int m, int n)
 {
@@ -87,10 +87,10 @@ arma::vec Basis::rPart(arma::vec r, int m, int n)
 
 /**
  * @brief computes the zPart of the basis function
- * 
+ *
  * @param z all the values that z can take
  * @param nz the nz parameter
- * @return arma::vec 
+ * @return arma::vec
  */
 arma::vec Basis::zPart(arma::vec z, int nz)
 {
@@ -106,13 +106,13 @@ arma::vec Basis::zPart(arma::vec z, int nz)
 
 /**
  * @brief compute the basis function
- * 
+ *
  * @param m the m parameter
  * @param n the n parameter
  * @param n_z the nz parameter
  * @param z all the values that r can take
  * @param r all the values that z can take
- * @return matrice with values of basis function 
+ * @return matrice with values of basis function
  */
 arma::mat Basis::basisFunc(int m, int n, int n_z, arma::vec z, arma::vec r)
 {

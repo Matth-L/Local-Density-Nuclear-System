@@ -73,8 +73,8 @@ public:
 
     /**
      * @brief computes the zPart of the basis function
-     * 
-     * @return arma::vec 
+     *
+     * @return arma::vec
      */
     arma::vec zPart(arma::vec, int);
 
