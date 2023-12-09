@@ -72,6 +72,7 @@ Here are the main commands you can run using the makefile:
 - Clean the project: `make clean`
 - Run tests before any commit: `make tests`
 - Format the code: `make style`
+- Run the benchmark: `make bench`
 
 We use astyle to format our code, you can find the configuration file in the makefile
 See more : http://astyle.sourceforge.net/
