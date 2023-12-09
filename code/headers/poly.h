@@ -17,35 +17,35 @@
 class Poly
 {
 public:
-  /**
-   * @brief this matrix contains
-   * TODO Faire les commetaires , n = 0 correspond à la colonne
-   * it will contains the value of the hermite's polynome for each z
-   */
-  arma::mat polynomeMat;
+    /**
+     * @brief this matrix contains
+     * TODO Faire les commetaires , n = 0 correspond à la colonne
+     * it will contains the value of the hermite's polynome for each z
+     */
+    arma::mat polynomeMat;
 
-  /**
-   * @brief get the matrix of the hermite's polynome
-   *
-   * @return arma::mat
-   */
-  arma::mat getPolynomeMat();
+    /**
+     * @brief get the matrix of the hermite's polynome
+     *
+     * @return arma::mat
+     */
+    arma::mat getPolynomeMat();
 
-  /**
-   * @brief get the row of the hermite's matrix
-   */
-  arma::vec hermite(int);
+    /**
+     * @brief get the row of the hermite's matrix
+     */
+    arma::vec hermite(int);
 
-  /**
-   * @brief compute the value of the hermite's polynome using n and a vector of values Z
-   */
-  void calcHermite(int, arma::vec);
+    /**
+     * @brief compute the value of the hermite's polynome using n and a vector of values Z
+     */
+    void calcHermite(int, arma::vec);
 
-  arma::cube polynomeLaguerre;
+    arma::cube polynomeLaguerre;
 
-  void calcLaguerre(int, int, arma::vec);
+    void calcLaguerre(int, int, arma::vec);
 
-  arma::vec laguerre(int, int);
+    arma::vec laguerre(int, int);
 };
 
 #endif // POLY_H

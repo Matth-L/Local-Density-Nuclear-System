@@ -18,7 +18,7 @@ using namespace arma;
  */
 int v(int i, int N, float Q)
 {
-  return (N + 2) * pow(Q, 2.0 / 3) + 0.5 - i * Q;
+    return (N + 2) * pow(Q, 2.0 / 3) + 0.5 - i * Q;
 }
 /**
  * @brief Construct a new Basis:: Basis object
@@ -30,36 +30,36 @@ int v(int i, int N, float Q)
  */
 Basis::Basis(double brInput, double bzInput, uint NInput, float QInput)
 {
-  br = brInput;
-  bz = bzInput;
-  N = NInput;
-  Q = QInput;
+    br = brInput;
+    bz = bzInput;
+    N = NInput;
+    Q = QInput;
 
-  int i = 0;
-  float res = v(i, N, Q);
-  while (res > 1)
-  {
-    i++;
-    res = v(i, N, Q);
-  }
-  mMax = i;
-
-  nMax.zeros(mMax);
-  for (int i = 0; i < mMax; i++)
-  {
-    nMax[i] = 0.5 * (mMax - i - 1) + 1;
-  }
-  n_zMax.zeros(mMax, max(nMax));
-  for (int m = 0; m < mMax; m++)
-  {
-    for (int n = 0; n < nMax[m]; n++)
+    int i = 0;
+    float res = v(i, N, Q);
+    while (res > 1)
     {
-      int result = v(m + 2 * n + 1, 14, 1.3);
-      if (result < 0)
-        continue;
-      n_zMax(m, n) = result;
+        i++;
+        res = v(i, N, Q);
     }
-  }
+    mMax = i;
+
+    nMax.zeros(mMax);
+    for (int i = 0; i < mMax; i++)
+    {
+        nMax[i] = 0.5 * (mMax - i - 1) + 1;
+    }
+    n_zMax.zeros(mMax, max(nMax));
+    for (int m = 0; m < mMax; m++)
+    {
+        for (int n = 0; n < nMax[m]; n++)
+        {
+            int result = v(m + 2 * n + 1, 14, 1.3);
+            if (result < 0)
+                continue;
+            n_zMax(m, n) = result;
+        }
+    }
 };
 
 /**
@@ -69,15 +69,15 @@ Basis::Basis(double brInput, double bzInput, uint NInput, float QInput)
  */
 vec Basis::rPart(vec r, int m, int n)
 {
-  int am = abs(m);
-  double c = (1 / (br * sqrt(M_PI))) * sqrt(tgamma(n + 1) / tgamma(n + am + 1));
-  vec r2 = pow(r, 2);
-  double val = -1 / (2 * br * br);
+    int am = abs(m);
+    double c = (1 / (br * sqrt(M_PI))) * sqrt(tgamma(n + 1) / tgamma(n + am + 1));
+    vec r2 = pow(r, 2);
+    double val = -1 / (2 * br * br);
 
-  Poly poly;
-  poly.calcLaguerre(am + 1, n + 1, r2 * (1 / (br * br)));
+    Poly poly;
+    poly.calcLaguerre(am + 1, n + 1, r2 * (1 / (br * br)));
 
-  return c * exp(r2 * val) % pow(r * (1 / br), am) % poly.laguerre(am, n);
+    return c * exp(r2 * val) % pow(r * (1 / br), am) % poly.laguerre(am, n);
 };
 
 /**
@@ -87,14 +87,14 @@ vec Basis::rPart(vec r, int m, int n)
  */
 vec Basis::zPart(vec z, int nz)
 {
-  Poly poly;
-  poly.calcHermite(nz + 1, z / bz);
+    Poly poly;
+    poly.calcHermite(nz + 1, z / bz);
 
-  double c = 1 / (sqrt(bz) * sqrt(pow(2, nz) * sqrt(M_PI) * tgamma(nz + 1)));
-  double val = -1 / (2 * bz * bz);
-  vec z2 = pow(z, 2);
+    double c = 1 / (sqrt(bz) * sqrt(pow(2, nz) * sqrt(M_PI) * tgamma(nz + 1)));
+    double val = -1 / (2 * bz * bz);
+    vec z2 = pow(z, 2);
 
-  return c * exp(z2 * val) % poly.hermite(nz);
+    return c * exp(z2 * val) % poly.hermite(nz);
 };
 
 /**
@@ -104,5 +104,5 @@ vec Basis::zPart(vec z, int nz)
  */
 mat Basis::basisFunc(int m, int n, int n_z, vec z, vec r)
 {
-  return zPart(z, n_z) * rPart(r, m, n).t();
+    return zPart(z, n_z) * rPart(r, m, n).t();
 };
