@@ -52,12 +52,12 @@ class: animated fadeIn middle numbers
 5. Résultats et Plot
 6. Optimisations : Problème initial
    1. Speed-up
-   2. **V1** Déplacement des boucles
+   2. **V1**  Déplacement des boucles
    3.  **V2** Précalcul de B
-   4.  **V3** fission de boucles , rho calculé après
-   5.  **V4** symétrie de rho
-   6.  **V5** ajout de var temp (plus rapide ??)
-   7.  **V6** ? Idée d'optimisation
+   4.  **V3** fission de boucles, calcul de rho par la suite
+   5.  **V4** Symétrie de rho 
+   6.  **V5** Factorisation du code
+   7.  **V6** Idée d'optimisation ?
 7.  Conclusion
 ---
 
@@ -582,6 +582,21 @@ B[i] = B[mp,np,n_zp], i++
 \coprod_{i} (A=B[i]*B[i]) , R += A + \sum_{j}^{i} 2 * B[i] * B[j] * \rho(i,j) 
 $$`
 
+```C++
+for (size_t i = 0; i < basisFuncsSize; i++)
+{
+    mat basisProduct = basisFuncs[i] % basisFuncs[i];
+    result += basisProduct * rho(i, i);
+
+    for (size_t j = 0; j < i; j++)
+    {
+        basisProduct = 2 * basisFuncs[i] % basisFuncs[j];
+        result += basisProduct * rho(i, j);
+    }
+}
+
+```
+
 Gain : **x~1.5**
 ---
 # V5 Factorisation du code
@@ -611,8 +626,6 @@ Nous pouvons apercevoir que rho est une diagonale par bloc, en récupérant les 
 # Conclusion
 
 ![thats_all_folks](./image/thats_all.png)
-
----
 
 
     </textarea>
