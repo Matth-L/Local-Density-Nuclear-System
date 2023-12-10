@@ -14,7 +14,13 @@ This project is a class assignment for the HPC course at ENSIIE. Our goal is to 
 
 ## Introduction
 
-TODO 
+Le but de ce projet est de calculer la densité locale d'un système nucléaire:
+
+`$$\rho(r) \equiv  \sum_a \sum_b \rho_{ab}\psi_a(r)\psi_b^{*}(r)$$`
+
+On peut aussi écrire: `$$\psi_a = \psi_{m_a,n_a,n_{za}}$$`
+
+La base utilisée ne sera pas infinie, il y aura donc une troncation de cette base pour des raisons pratiques.
 
 We had to plot the local density of a nuclear system.
 We plotted the local density of a nuclear system using povray.
