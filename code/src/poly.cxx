@@ -1,5 +1,6 @@
 /**
  * @file hermite.cxx
+ * @author Lapu Matthias
  * @brief implementation of the hermite's polynome
  */
 #include "../headers/poly.h"

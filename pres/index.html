@@ -33,7 +33,7 @@ Matthias Lapu
 
 
 .footnote[
-[:cow:](./index_cea.html)
+[:cow:](./image/thats_all.png)
 ]
 
 ---
@@ -43,27 +43,29 @@ class: animated fadeIn middle numbers
 ---
 # Table des matières
 1. Courte Introduction
-3. Chaîne de compilation
-4. Documentation
-5. Présentation du projet
+2. Chaîne de compilation
+3. Documentation
+4. Présentation du projet
    1. Poly
    2. Basis
    3. Tests
-6. Résultats et Plot 
-7. **V1** Déplacement des boucles
-8.  **V2** Précalcul de B
-9.  **V3** fission de boucles , rho calculé après
-10. **V4** symétrie de rho
-11. **V5** ajout de var temp (plus rapide ??)
-12. **V6** ? Idée d'optimisation
-13. Conclusion
+5. Résultats et Plot
+6. Optimisations : Problème initial
+   1. Speed-up
+   2. **V1** Déplacement des boucles
+   3.  **V2** Précalcul de B
+   4.  **V3** fission de boucles , rho calculé après
+   5.  **V4** symétrie de rho
+   6.  **V5** ajout de var temp (plus rapide ??)
+   7.  **V6** ? Idée d'optimisation
+7.  Conclusion
 ---
 
 # Courte Introduction
 ## Densité Locale
 Le but de ce projet est de calculer la densité locale d'un système nucléaire:
 
-`$$\rho(r) \equiv \sum_{a}^{} \sum_{b}^{} \rho_{ab}\psi_a(r)\psi_b^{*}(r)$$`
+`$$\rho(r) \equiv  \sum_a \sum_b \rho_{ab}\psi_a(r)\psi_b^{*}(r)$$`
 
 On peut aussi écrire: `$$\psi_a = \psi_{m_a,n_a,n_{za}}$$`
 
@@ -76,9 +78,9 @@ La base utilisée ne sera pas infinie, il y aura donc une troncation de cette ba
 
 avec:
 
-`$$Z(z,n_z) \equiv \frac{1}{\sqrt{b_z}}\frac{1}{\sqrt{2^{n_z}\sqrt{\pi}n_z!}}e^{-\frac{z^2}{2b_z^2}}H_{n_z}(\frac{z}{b_z})$$`
+`$$Z(z,n_z) \equiv \frac{1}{\sqrt{b_z}}\frac{1}{\sqrt{2^{n_z}\sqrt{\pi}n_z!}}e^{-\frac{z^2}{2b_z^2}}H_{n_z}\left(\frac{z}{b_z}\right)$$`
 
-`$$R(r_{\bot},m,n) \equiv \frac{1}{b_{\bot}\sqrt{\pi}}\sqrt{\frac{n!}{(n+|m|)!}}e^{-\frac{r_{\bot}^2}{2b_{\bot}^2}}(\frac{r_{\bot}}{b_{\bot}})^{|m|}L_n^{|m|}(\frac{r_{\bot}^2}{b_{\bot}^2})$$`
+`$$R(r_{\bot},m,n) \equiv \frac{1}{b_{\bot}\sqrt{\pi}}\sqrt{\frac{n!}{(n+|m|)!}}e^{-\frac{r_{\bot}^2}{2b_{\bot}^2}}\left(\frac{r_{\bot}}{b_{\bot}}\right)^{|m|}L_n^{|m|}\left(\frac{r_{\bot}^2}{b_{\bot}^2}\right)$$`
 
 et:
 
@@ -206,21 +208,103 @@ clean:
         Qui lance povray sur le fichier résultat, **il faut avoir lancé l'executable out pour générer le résultat en csv avant de lancer make pov.**
 
 ---
+
 # Documentation
 
 ![Exemple de la mainpage](./image/doxygenExample2.PNG)
 
 ---
-# Présentation du projet
-## Poly
+
+# Poly
+
+Hermite :
+
+`$$H_{0}(\zeta) = 1 $$`
+
+`$$H_{1}(\zeta) = 2z$$`
+
+`$$\forall n \in \mathbb{N}^{+}, n > 1,H_{n+1}(\zeta) = 2\zeta H_{n}(\zeta) - 2nH_{n-1}(\zeta)$$`
+
+Laguerre généralisé :
+
+`$$L_{0}^m(\eta) = 1 $$`
+
+`$$L_{1}^m(\eta) = 1 + m - \eta $$`
+    
+`$$\forall (m, n) \in \mathbb{N}^{+2}, n > 1,L_n^m(\eta) = \left(2+\frac{m-1-\eta}{n}\right)L_{n-1}^m(\eta) - \left(1+\frac{m-1}{n}\right)L_{n-2}^m(\eta)$$`
 
 ---
-# Présentation du projet
-## Basis
+
+# Poly
+
+Hermite :
+
+| n=0   | n=1       | ... |                             n                                |
+|:-----:|:---------:|:---:|:------------------------------------------------------------:|
+|   1   |   2(z0)   | ... |`$$ H_{n+1}(z_0) = 2zH_n(z_0)-2nH_{n-1}(z_0)$$`               |
+|   1   |   2(z1)   | ... |`$$ H_{n+1}(z_1) = 2zH_n(z_1)-2nH_{n-1}(z_1)$$`               |
+| ...   |   ...     | ... |                             ...                              |
+|   1   |   2(z_n)  | ... |`$$ H_{n+1}(z_n) = 2zH_n(z_n)-2nH_{n-1}(z_n)$$`               |
+
+
+
+Laguerre généralisé :
+
+| n=0   | n=1           | ... |                             n                                                                       |
+|:-----:|:-------------:|:---:|:---------------------------------------------------------------------------------------------------:|
+|   1   |   1 + m - z_0 | ... |`$$  \left(\frac{2+(m-1-z_0)}{n} * L_{n-1}\right) - \left(\frac{1+(m-1)}{n} * L_{n-2} \right)  $$`   |
+|   1   |  1 + m - z_1  | ... |`$$ \left(\frac{2+(m-1-z_1)}{n} * L_{n-1}\right) - \left(\frac{1+(m-1)}{n} * L_{n-2} \right) $$`     |
+| ...   |   ...         | ... |                             ...                                                                     |
+|   1   |   1 + m - z_n | ... |`$$ \left(\frac{2+(m-1-z_n)}{n} * L_{n-1}\right) - \left(\frac{1+(m-1)}{n} * L_{n-2} \right) $$`     |
+
 
 ---
-# Présentation du projet
-## Tests
+
+# Poly
+
+Laguerre : 
+
+```C++
+    for (int m = 0; m < mInput; m++)
+    {
+        for (int n = 0; n < nInput; n++)
+        {
+            if (n == 0)
+            {
+                polynomeLaguerre.slice(m).col(0) = ones(z.n_elem);
+            }
+            else if (n == 1)
+            {
+                polynomeLaguerre.slice(m).col(1) = 1 + m - z;
+            }
+            else if (n > 1)
+            {
+
+                vec a = polynomeLaguerre.slice(m).col(n - 1);
+                vec b = polynomeLaguerre.slice(m).col(n - 2);
+                polynomeLaguerre.slice(m).col(n) =
+                    (2.0 + (m - 1.0 - z) / n) % a - (1.0 + (m - 1.0) / n) * b;
+            }
+        }
+    }
+```
+---
+# Basis
+
+Un objet Basis contient:
+- `$b_{\bot},b_z$` les paramètres de déformation de la base
+- `$N,Q$` les paramètres de troncation de la base
+- `$m^{max}$`, le `$m$` maximum déterminé par les paramètres de troncation
+- `$n^{max}$`, le vecteur qui contient les `$n$` maximums, chacun dépendant de `$m$`
+- `$n_z^{max}$`, la matrice qui contient les `$n_z$` maximums, chacun dépendant de `$m$` et de `$n$`
+
+---
+
+# Tests
+
+.hcenter[
+<asciinema-player src="./image/test.cast"></asciinema-player>
+]
 
 ---
 # Résultat 2D 
@@ -238,19 +322,79 @@ clean:
 
 ---
 
-# Explication 3D 
+# Explication plot 3D 
 
-AMA TODO 
+.row[
+.w49.col[
+La méthode est la même quelque soit la valeur de z dont on ne s'interesse ici qu'au plan x,y
+<br><br>
+On commence par calculer la distance OE:
+
+$OE = \sqrt{(x_E - x_O)^{2} + (y_E - y_O) ^ 2}$
+<br><br><br>
+Dans notre code O se trouve au point (16,16)
+<br><br>
+
+La densité en E:
+
+si $OE<rayon,d(E)=\frac{d(\left \lfloor OE \right \rfloor)+d(\left \lceil OE \right \rceil)}{2}$
+    
+si $OE>=rayon,d(E)=0$
+
+]
+.w49.col[
+![Calcule des densités](./image/graphe.png)
+]
+]
 
 ---
 
-# Problème initial
+# Explication plot 3D 
+
+Calcul des densités:
+
+```C++
+//cube qui sera affiché
+cube cubeResult = zeros(32, 32, 64);
+
+for (int x = 0; x < 32; x++)
+{
+    for (int y = 0; y < 32; y++)
+    {
+        int distance = static_cast<int>(std::sqrt(std::pow(x - 16, 2) + std::pow(y - 16, 2)));
+        for (int z = 0; z < 64; z++)
+        {
+            // on fait la moyenne entre 2 points
+            if (distance < 16)
+            {
+                if (distance <= 0)
+                {
+                    cubeResult(x, y, z) = result(z, 0);
+                }
+                else
+                {
+                    cubeResult(x, y, z) = 0.5 * (result(z, distance - 1) + result(z, distance));
+                }
+            }
+            else
+            {
+                cubeResult(x, y, z) = 0;
+            }
+        }
+    }
+}
+```
+
+---
+
+# Optimisations: Problème initial
 
 `$$
 \sum_m\sum_n\sum_{n\_z}\sum_{mp}\sum_{np}\sum_{n\_zp} A[m,n,n\_z] B[mp,np,n\_zp] 
 \rho[m,n,n\_z,mp,np,n\_zp]
 $$`
 
+`$$\coprod_m \coprod_n^{(m)} \coprod_{n_z}^{(m,n)}  R += \sum_{mp} \sum_{np}^{(mp)} \sum_{n_{z}p}^{(mp,np)} A[m,n,n_z]\cdot B[mp,np,n_{z}p]\cdot \rho[m,n,n_z,mp,np,n_{z}p] $$`
 
 ```C++
 arma::mat result = arma::zeros(nbR, nbZ); // number of points on r- and z- axes
@@ -282,73 +426,192 @@ for (int m = 0; m < basis.mMax; m++)
 
 ![Speed-up](./image/benchmark.png)
 
-Test effectué 100 fois. 
+Test effectué 50 fois. 
+
+Entre la version naive et la dernière version speedup : **~100**
 
 ---
 # V1 Déplacement des boucles
 
 `$$
-\color{red}
-\sum_m\sum_n\sum_{n\_z}
-\color{black}
-\sum_{mp}\sum_{np}\sum_{n\_zp}
-\color{red}
-A[m,n,n\_z]
-\color{black}B[mp,np,n\_zp] 
-\rho[m,n,n\_z,mp,np,n\_zp]
+\coprod_{m}\coprod_{n}^{(m)}\coprod_{n_z}^{(m,n)} R , (A = A[m,n,n_z]) += 
+\sum_{mp}\sum_{np}^{(mp)}\sum_{n_zp}^{(mp,np)} A B[mp,n_p,n_zp] \cdot
+\rho[m,n,n_z,mp,np,n_zp]
 $$`
 
--- 
+Gain : **~x2** 
 
+.row[
+ .column.w48.middle[
+```C++
 
-`$$
-\color{red}
-\sum_m\sum_n\sum_{n\_z}
-A[m,n,n\_z]
-\color{black}
-\sum_{mp}\sum_{np}\sum_{n\_zp} 
-B[mp,np,n\_zp] 
-\rho[m,n,n\_z,mp,np,n\_zp]
-$$`
+uint j = 0;
+for (int mp = 0; mp < basis.mMax; mp++)
+{
+ for (int np = 0; np < basis.nMax(mp); np++)
+ {
+  for (int n_zp = 0; n_zp < basis.n_zMax(mp, np); n_zp++)
+   {
+    arma::mat funcA = basis.basisFunc(m, n, n_z, zVals, rVals);
+    arma::mat funcB = basis.basisFunc(mp, np, n_zp, zVals, rVals);
+    result += funcA % funcB * rho(i, j);
+    j++; // mat += mat % mat * double
+   }
+ }
+}
+i++;
 
--- 
+```
+]
+.column.middle[
+:arrow_right:
+]
+.column.w48.middle[
+```C++
+uint j = 0;
+arma::mat funcA = basis.basisFunc(m, n, n_z, zVals, rVals);
 
-Gain : ??? 
-
+for (int mp = 0; mp < basis.mMax; mp++)
+{
+ for (int np = 0; np < basis.nMax(mp); np++)
+ {
+  for (int n_zp = 0; n_zp < basis.n_zMax(mp, np); n_zp++)
+  {
+   arma::mat funcB = basis.basisFunc(mp, np, n_zp, zVals, rVals);
+   result += funcA % funcB * rho(i, j);
+   j++; // mat += mat % mat * double
+  }
+ }
+}
+i++;
+```
+]
+]
 ---
-# V2 Précalcul de B 
 
-`$$
-\color{magenta}
-\sum_m\sum_n\sum_{n\_z}
-\color{black}
-A[m,n,n\_z]
-\color{red}
-\sum_{mp}\sum_{np}\sum_{n\_zp} 
-B[mp,np,n\_zp] 
-\color{black}
-\rho[m,n,n\_z,mp,np,n\_zp]
-$$`
+# V2 Précalcul de B 
 
 B est calculé pour chaque m, n et n_z.
 Elle est donc calculé trop de fois.
 Le but est de la précalculé dans un cube qui sera un vecteur de matrice.
 
+`$$
+i=0,
+\coprod_{mp}\coprod_{np}^{(mp)}\coprod_{n_zp}^{(mp,np)} (B[i] = B[mp,np,n_zp]) , i++
+\\
+j=0,
+\coprod_{m}\coprod_{n}^{(m)}\coprod_{n_z}^{(m,n)} += A[m,n,n_z] * \sum_{i} B(i) * \rho(i,j)
+$$`
+
+Gain : ** ~ x25 **
+---
+
+# V2 Précalcul de B
+
+```C++
+std::vector<arma::mat> funcB;
+auto start = std::chrono::high_resolution_clock::now();
+for (int mp = 0; mp < basis.mMax; mp++)
+{
+  for (int np = 0; np < basis.nMax(mp); np++)
+  {
+    for (int n_zp = 0; n_zp < basis.n_zMax(mp, np); n_zp++)
+    {
+      funcB.push_back(basis.basisFunc(mp, np, n_zp, zVals, rVals));
+    }
+  }
+}
+
+for (int m = 0; m < basis.mMax; m++)
+{
+  for (int n = 0; n < basis.nMax(m); n++)
+  {
+    for (int n_z = 0; n_z < basis.n_zMax(m, n); n_z++)
+    {
+      uint j = 0;
+      arma::mat funcA = basis.basisFunc(m, n, n_z, zVals, rVals);
+      for (auto &func : funcB)
+        {
+            result += funcA % func * rho(i, j);
+            j++;
+        }
+      i++;
+    }
+  }
+}
+```
 ---
 # V3 fission de boucles , rho calculé après
 
-(faire appel au vecteur de dépendance pour montrer que c'est la même ? I.E ARMA)
+On part du principe que A et B sont les mêmes par conséquent , on ne les calcules qu'une fois, puis on déroule i et j pour avoir les valeurs de rho associé.
+
+`$$
+i=0, 
+\coprod_{mp}\coprod_{np}^{(mp)}\coprod_{n_zp}^{(mp,np)} 
+\left(   
+B[i] = B[mp,np,n_zp], i++
+\right)
+\\
+\coprod_{i}\coprod_{j} R += B[i] * B[j] * \rho(i,j) 
+$$`
+
+```C++
+for (int i = 0; i < 374; i++)
+{
+        
+  for (int j = 0; j < 374; j++)
+  {
+    result += funcA[i] % funcA[j] * rho(i, j);
+  }
+}
+```
+
+Gain : **~x1.17**
 ---
 # V4 symétrie de rho
----
-# V5 ajout de var temp (plus rapide ??)
----
-# V6 ? Idée d'optimisation 
 
-rho semble etre une matrice par bloc
+La matrice rho est symétrique, cela veut donc dire que l'on peut uniquement utilisé qu'une seule des 2 parties triangulaire + la diagonale .
+
+`$$
+i=0, 
+\coprod_{mp}\coprod_{np}^{(mp)}\coprod_{n_zp}^{(mp,np)} 
+\left(   
+B[i] = B[mp,np,n_zp], i++
+\right)
+\\
+\coprod_{i} (A=B[i]*B[i]) , R += A + \sum_{j}^{i} 2 * B[i] * B[j] * \rho(i,j) 
+$$`
+
+Gain : **x~1.5**
+---
+# V5 Factorisation du code
+
+Une variable temporaire à été supprimé, cela était plus claire lors de la conception mais en pratique cela crée des allocations supplémentaires.
+
+Cela fait gagné 
+```C++
+for (size_t i = 0; i < basisFuncsSize; i++)
+{
+  for (size_t j = 0; j < i; j++)
+  {
+    result += 2 * basisFuncs[i] % basisFuncs[j] * rho(i, j);
+  }
+  result += basisFuncs[i] % basisFuncs[i] * rho(i, i);
+}
+```
+
+Gain : **~x1.4**
+---
+# V6 Idée d'optimisation ?
+
+Nous pouvons apercevoir que rho est une diagonale par bloc, en récupérant les bonnes tailles, ils seraient possible d'effectuer moins d'itérations.
 
 ---
+
 # Conclusion
+
+![thats_all_folks](./image/thats_all.png)
+
 ---
 
 
