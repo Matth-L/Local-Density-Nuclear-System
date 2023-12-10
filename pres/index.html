@@ -44,12 +44,15 @@ class: animated fadeIn middle numbers
 # Table des matières
 1. Courte Introduction
 3. Chaîne de compilation
-4. Exemples de code
-5. Documentation
+4. Documentation
+5. Présentation du projet
+   1. Poly
+   2. Basis
+   3. Tests
 6. Résultats et Plot 
 7. **V1** Déplacement des boucles
-8. **V2** Précalcul de B
-9. **V3** fission de boucles , rho calculé après
+8.  **V2** Précalcul de B
+9.  **V3** fission de boucles , rho calculé après
 10. **V4** symétrie de rho
 11. **V5** ajout de var temp (plus rapide ??)
 12. **V6** ? Idée d'optimisation
@@ -140,6 +143,7 @@ clean:
 	$(MAKE) -C doc clean
 	$(MAKE) -C benchmark clean
 	rm -rf .vscode
+    rm -f resultat.png
 
 ```
 ---
@@ -187,7 +191,7 @@ clean:
       - style
       - **bench**
       
-        Qui lance autant de test que donné en paramètre et crée un CSV avec les résultats.
+        Qui génère un executable qui lance autant de test que donné en paramètre et crée un CSV avec les résultats.
 
 ---
 # Chaîne de compilation  
@@ -199,16 +203,26 @@ clean:
       - bench
       - **pov**
       
-        Qui lance povray sur le fichier résultat
-
----
-# Exemple de codes
+        Qui lance povray sur le fichier résultat, **il faut avoir lancé l'executable out pour générer le résultat en csv avant de lancer make pov.**
 
 ---
 # Documentation
 
----
+![Exemple de la mainpage](./image/doxygenExample2.PNG)
 
+---
+# Présentation du projet
+## Poly
+
+---
+# Présentation du projet
+## Basis
+
+---
+# Présentation du projet
+## Tests
+
+---
 # Résultat 2D 
 
 .hcenter.w80[

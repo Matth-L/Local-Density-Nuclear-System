@@ -29,5 +29,6 @@ clean:
 	$(MAKE) -C doc clean
 	$(MAKE) -C benchmark clean
 	rm -rf .vscode
+	rm -f resultat.png
 
 
