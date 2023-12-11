@@ -18,11 +18,12 @@ This project is a class assignment for the HPC course at ENSIIE. Our goal is to 
 
 The goal of this project is to calculate the local density of a nuclear system using the following expression:
 
-\[ \rho(r) \equiv \sum_a \sum_b \rho_{ab} \psi_a(r) \psi_b^{*}(r) \]
+![Local Density](/pres/image/equation.png)
+
 
 We can also express the wave functions as:
 
-\[ \psi_a = \psi_{m_a,n_a,n_{za}} \]
+![Wave](/pres/image/equation1.png)
 
 ## Basis Set Truncation
 
