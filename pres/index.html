@@ -497,7 +497,7 @@ Le but est de la précalculé dans un cube qui sera un vecteur de matrice.
 
 `$$
 i=0,
-\coprod_{mp}\coprod_{np}^{(mp)}\coprod_{n_zp}^{(mp,np)} (B[i] = B[mp,np,n_zp]) , i++
+\coprod_{mp}\coprod_{np}^{(mp)}\coprod_{n_{zp}}^{(mp,np)} (B[i] = B[mp,np,n_{zp}]) , i++
 \\
 j=0,
 \coprod_{m}\coprod_{n}^{(m)}\coprod_{n_z}^{(m,n)} += A[m,n,n_z] * \sum_{i} B(i) * \rho(i,j)
@@ -547,9 +547,9 @@ On part du principe que A et B sont les mêmes par conséquent , on ne les calcu
 
 `$$
 i=0, 
-\coprod_{mp}\coprod_{np}^{(mp)}\coprod_{n_zp}^{(mp,np)} 
+\coprod_{mp}\coprod_{np}^{(mp)}\coprod_{n_{zp}}^{(mp,np)} 
 \left(   
-B[i] = B[mp,np,n_zp], i++
+B[i] = B[mp,np,n_{zp}], i++
 \right)
 \\
 \coprod_{i}\coprod_{j} R += B[i] * B[j] * \rho(i,j) 
@@ -574,9 +574,9 @@ La matrice rho est symétrique, cela veut donc dire que l'on peut uniquement uti
 
 `$$
 i=0, 
-\coprod_{mp}\coprod_{np}^{(mp)}\coprod_{n_zp}^{(mp,np)} 
+\coprod_{mp}\coprod_{np}^{(mp)}\coprod_{n_{zp}}^{(mp,np)} 
 \left(   
-B[i] = B[mp,np,n_zp], i++
+B[i] = B[mp,np,n_{zp}], i++
 \right)
 \\
 \coprod_{i} (A=B[i]*B[i]) , R += A + \sum_{j}^{i} 2 * B[i] * B[j] * \rho(i,j) 
@@ -603,7 +603,7 @@ Gain : **x~1.5**
 
 Une variable temporaire à été supprimé, cela était plus claire lors de la conception mais en pratique cela crée des allocations supplémentaires.
 
-Cela fait gagné 
+ 
 ```C++
 for (size_t i = 0; i < basisFuncsSize; i++)
 {
