@@ -9,7 +9,6 @@ This project is a class assignment for the HPC course at ENSIIE. Our goal is to 
   - [Introduction](#introduction)
   - [Requirements](#requirements)
   - [Installation](#installation)
-  - [Usage](#usage)
   - [Commands](#commands)
 
 ## Introduction
