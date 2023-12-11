@@ -19,7 +19,6 @@ The goal of this project is to calculate the local density of a nuclear system u
 
 ![Local Density](/pres/image/equation.png)
 
-
 We can also express the wave functions as:
 
 ![Wave](/pres/image/equation1.png)
@@ -30,17 +29,18 @@ To make the calculations feasible, the basis set used will be truncated.
 
 We had to plot the local density of a nuclear system.
 We plotted the local density of a nuclear system using povray.
-![Local Density Nuclear System](/pres/image/resultat_3D.png)
 
+![Local Density Nuclear System](/pres/image/resultat_3D.png)
 
 We also had to optimize our code as mush as possible.
 We used the following tools to do so:
 - loop optimization
 - precalculation of a matrix in a cube  
 - factorization 
+
 ![Optimization](/pres/image/benchmark.png)
 
-Total optimisation : ~x95
+Total optimisation : ~x100
 
 ## Requirements
 
@@ -57,13 +57,13 @@ This project uses the following libraries:
 ## Installation
 
 for Debian distributions, you can install the libraries using the following command:
-```sh
+```bash
 sudo apt-get install libarmadillo-dev cxxtest python3 python3-matplotlib build-essential astyle doxygen povray
 ```
 
 To install this project on your computer, you can clone the repository using the following command:
 
-```sh
+```bash
 git clone https://gitlab.pedago.ensiie.fr/romeo.louati/local-density-nuclear-system
 ```
 
