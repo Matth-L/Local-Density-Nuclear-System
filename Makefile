@@ -8,13 +8,17 @@ code:
 	mkdir -p code/obj
 	$(MAKE) -C code
 
-tests: 
+tests:
+	mkdir -p bin
+	mkdir -p code/obj
 	$(MAKE) -C tests
 
 doc:
 	$(MAKE) -C doc
 
-bench : 
+bench :
+	mkdir -p bin
+	mkdir -p code/obj
 	$(MAKE) -C code 
 	$(MAKE) -C benchmark
 
