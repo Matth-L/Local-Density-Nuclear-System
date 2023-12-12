@@ -4,6 +4,8 @@ MAKE = make
 all: code tests doc style pov 
 
 code:
+	mkdir -p bin
+	mkdir -p code/obj
 	$(MAKE) -C code
 
 tests: 
@@ -29,6 +31,8 @@ clean:
 	$(MAKE) -C doc clean
 	$(MAKE) -C benchmark clean
 	rm -rf .vscode
+	rm -rf bin
+	rm -rf code/obj
 	rm -f resultat.png
 
 
