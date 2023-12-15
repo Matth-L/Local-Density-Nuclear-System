@@ -61,12 +61,6 @@ for Debian distributions, you can install the libraries using the following comm
 sudo apt-get install libarmadillo-dev cxxtest python3 python3-matplotlib build-essential astyle doxygen povray
 ```
 
-To install this project on your computer, you can clone the repository using the following command:
-
-```bash
-git clone https://gitlab.pedago.ensiie.fr/romeo.louati/local-density-nuclear-system
-```
-
 ## Armadillo's library
 
 We use the armadillo's library to do most of our calculations. This library is one of the fastest available to do linear algebra, it uses LAPACK, BLAS ...
