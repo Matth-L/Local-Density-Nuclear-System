@@ -1,8 +1,8 @@
-# Local Density Nuclear System
+# Local Density Nuclear System 🧪
 
 This project is a class assignment for the HPC course at ENSIIE. Our goal is to plot the local density of a nuclear system.
 
-## Table of Contents
+## Table of Contents 📑
 
 - [Local Density Nuclear System](#local-density-nuclear-system)
   - [Table of Contents](#table-of-contents)
@@ -11,7 +11,7 @@ This project is a class assignment for the HPC course at ENSIIE. Our goal is to 
   - [Installation](#installation)
   - [Commands](#commands)
 
-## Introduction
+## Introduction 📘
 
 # Nuclear System Local Density Calculation Project
 
@@ -23,7 +23,7 @@ We can also express the wave functions as:
 
 ![Wave](/pres/image/equation1.png)
 
-## Basis Set Truncation
+## Basis Set Truncation ✂️
 
 To make the calculations feasible, the basis set used will be truncated.
 
@@ -32,17 +32,17 @@ We plotted the local density of a nuclear system using povray.
 
 ![Local Density Nuclear System](/pres/image/resultat_3D.png)
 
-We also had to optimize our code as mush as possible.
+We also had to optimize our code as much as possible.
 We used the following tools to do so:
-- loop optimization
-- precalculation of a matrix in a cube  
-- factorization 
+- loop optimization 🔄
+- precalculation of a matrix in a cube
+- factorization ➗
 
 ![Optimization](/pres/image/benchmark.png)
 
-Total optimisation : ~x100
+Total optimization: ~x100 🚀
 
-## Requirements
+## Requirements 📋
 
 This project uses the following libraries:
 - C++11
@@ -54,20 +54,20 @@ This project uses the following libraries:
 - doxygen (documentation generator)
 - povray 
 
-## Installation
+## Installation 🛠️
 
-for Debian distributions, you can install the libraries using the following command:
+For Debian distributions, you can install the libraries using the following command:
 ```bash
 sudo apt-get install libarmadillo-dev cxxtest python3 python3-matplotlib build-essential astyle doxygen povray
 ```
 
-## Armadillo's library
+## Armadillo's library 📚
 
 We use the armadillo's library to do most of our calculations. This library is one of the fastest available to do linear algebra, it uses LAPACK, BLAS ...
 
-See more here : http://arma.sourceforge.net/
+See more here: http://arma.sourceforge.net/
 
-## Commands
+## Commands 📝
 
 Here are the main commands you can run using the makefile:
 
@@ -80,5 +80,5 @@ Here are the main commands you can run using the makefile:
 - Format the code: `make style`
 - Run the benchmark: `make bench`
 
-We use astyle to format our code, you can find the configuration file in the makefile
-See more : http://astyle.sourceforge.net/
+We use astyle to format our code, you can find the configuration file in the makefile.
+See more: http://astyle.sourceforge.net/
